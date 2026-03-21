@@ -1,3 +1,6 @@
+
+![1000007753](https://github.com/user-attachments/assets/1c264612-c65e-475a-82ad-4e13dc71df1a)
+
 # Aion-Drive-Eye
 [HU] Biometrikus járműfelügyeleti és ergonómiai kutatás. MI-alapú látásoptimalizálás és azonosítás. [EN] Biometric vehicle surveillance and ergonomic research. AI-based vision optimization and identification. [Talon-protocol / Open Concept]
 

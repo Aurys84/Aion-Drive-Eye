@@ -26,7 +26,6 @@
 
 ---
 
-### ⚖️ LABOR-SABLON / LABORATORY STANDARD
 
 #### [HU] JOGI NYILATKOZAT ÉS KUTATÁSI STÁTUSZ
 [cite_start]**Cs-Aion Mátrix Labor – Kísérleti Kutatási Divízió** [cite: 10]

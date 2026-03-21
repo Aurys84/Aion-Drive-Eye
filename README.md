@@ -20,12 +20,21 @@
 * **Kutatási alap:** A visszapillantó tükör, mint természetes fókuszpont kihasználása az írisz-azonosításhoz.
 * **Várható hatás:** A járműlopások radikális csökkenése.
 
+![Írisz-alapú azonosítás](Drive_Eye%2006.jpg)
+![Felhasználó hitelesítve](Drive_Eye%2005.jpg)
+
 #### 2. Adaptív Ergonómia
 * **Elmélet:** A szoftveres vezérlésű tükörmozgatás, amely követi az emberi tekintet dinamikáját, megszüntetve a holttereket.
+
+![Dinamikus HUD és tükörvezérlés](Drive_Eye%2001.jpg)
 
 #### 3. Kognitív Figyelés & Életvédelem
 * **Fáradtság-detekció:** Pislogási frekvencia és szemhéjállás figyelése.
 * **Gyermekvédelem:** Szemmagasság alapú szoftveres indítás-korlátozás.
+
+![Szemállás elemzése](Drive_Eye%2002.jpg)
+![Fáradtság észlelése folyamatban](Drive_Eye%2004.jpg)
+![Rendszerriasztás: Fáradtság észlelve](Drive_Eye%2003.jpg)
 
 ---
 

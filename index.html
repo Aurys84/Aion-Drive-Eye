@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - 3D Biometric Head & Mirror Simulator</title>
+    <title>Aion Drive-Eye v1.1.0 - Real Cockpit View</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -26,15 +26,21 @@
             box-sizing: border-box;
         }
 
-        .header { text-align: center; margin-bottom: 10px; }
+        .header { text-align: center; margin-bottom: 8px; }
         h1 { color: var(--hud-cyan); margin: 0; font-size: 1.7rem; text-shadow: 0 0 15px var(--hud-cyan); letter-spacing: 2px; }
-        p { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+        p { color: #94a3b8; font-size: 0.85rem; margin-top: 2px; }
 
+        /* JÁRMŰ KABIN ÉS UTAS TÉR ORSZÁGÚTI HÁTTÉRREL */
         .cabin-view {
             width: 98%;
             max-width: 850px;
             height: 540px;
-            background: radial-gradient(circle at 50% 100%, #1e293b 0%, #020617 85%);
+            /* Stylized éjszakai országút háttér */
+            background: 
+                perspective(200px) rotateX(25deg) linear-gradient(0deg, rgba(0,243,255,0.05) 2px, transparent 2px),
+                radial-gradient(ellipse at 50% 60%, rgba(15, 23, 42, 0.4) 0%, #020617 90%),
+                linear-gradient(180deg, #090d16 0%, #1e293b 60%, #020617 100%);
+            background-size: 40px 40px, 100% 100%, 100% 100%;
             border: 2px solid rgba(0, 243, 255, 0.4);
             border-radius: 24px;
             position: relative;
@@ -43,15 +49,35 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
             box-shadow: 0 0 40px rgba(0,243,255,0.15);
         }
 
+        /* ORSZÁGÚTI SÁVOK A SZÉLVEDŐ MÖGÖTT */
+        .road-perspective {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .road-lane {
+            width: 180px;
+            height: 100%;
+            border-left: 4px dashed rgba(255, 255, 255, 0.25);
+            border-right: 4px dashed rgba(255, 255, 255, 0.25);
+            transform: perspective(300px) rotateX(60deg);
+        }
+
         .windshield-hud {
             position: absolute;
-            top: 25px;
-            right: 35px;
+            top: 20px;
+            right: 30px;
             font-family: monospace;
             color: var(--hud-green);
             font-size: 1.1rem;
@@ -60,17 +86,89 @@
             text-shadow: 0 0 10px var(--hud-green);
             pointer-events: none;
             line-height: 1.5;
-            letter-spacing: 1px;
+            z-index: 10;
         }
 
+        /* FENTI TÜKÖR KONZOL */
+        .mirror-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+            margin-top: 5px;
+        }
+
+        .mirror-stem {
+            width: 16px;
+            height: 25px;
+            background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
+            border: 1px solid #475569;
+            box-shadow: 0 0 10px #000;
+            border-radius: 4px;
+            margin-bottom: -5px;
+            z-index: 1;
+        }
+
+        .mirror-housing {
+            width: 380px;
+            height: 140px;
+            background: #020617;
+            border: 5px solid #1e293b;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 25px #000, 0 15px 35px rgba(0,0,0,0.85);
+            perspective: 700px;
+            z-index: 2;
+        }
+
+        .mirror-inner-glass {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.25), transparent 65%),
+                linear-gradient(rgba(0, 243, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.08) 1px, transparent 1px);
+            background-size: 100% 100%, 25px 25px, 25px 25px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.04s ease-out;
+            transform-style: preserve-3d;
+            box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .target-reticle {
+            width: 190px;
+            height: 75px;
+            border: 2px dashed var(--hud-cyan);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--hud-cyan);
+            font-family: monospace;
+            font-size: 0.95rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            box-shadow: 0 0 15px rgba(0,243,255,0.4);
+            text-transform: lowercase;
+            transform: translateZ(30px);
+        }
+
+        /* ALULRA HELYEZETT BIOMETRIKUS FEJ / TEKINTET */
         .head-tracker-stage {
             width: 120px;
-            height: 120px;
+            height: 110px;
             perspective: 500px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10px;
+            z-index: 5;
+            margin-bottom: 10px;
         }
 
         .head-3d {
@@ -113,94 +211,27 @@
             left: 6px;
         }
 
-        /* TÜKÖR TARTÓKONZOL (STEM) */
-        .mirror-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        .mirror-stem {
-            width: 14px;
-            height: 30px;
-            background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
-            border: 1px solid #475569;
-            box-shadow: 0 0 10px #000;
-            border-radius: 4px;
-            margin-bottom: -5px;
-            z-index: 1;
-        }
-
-        .mirror-housing {
-            width: 380px;
-            height: 145px;
-            background: #020617;
-            border: 5px solid #1e293b;
-            border-radius: 26px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 25px #000, 0 15px 35px rgba(0,0,0,0.85);
-            perspective: 700px;
-            z-index: 2;
-        }
-
-        .mirror-inner-glass {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.25), transparent 65%),
-                linear-gradient(rgba(0, 243, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.08) 1px, transparent 1px);
-            background-size: 100% 100%, 25px 25px, 25px 25px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.04s ease-out;
-            transform-style: preserve-3d;
-            box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.3);
-        }
-
-        .target-reticle {
-            width: 190px;
-            height: 80px;
-            border: 2px dashed var(--hud-cyan);
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--hud-cyan);
-            font-family: monospace;
-            font-size: 0.95rem;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-            box-shadow: 0 0 15px rgba(0,243,255,0.4);
-            text-transform: lowercase;
-            transform: translateZ(30px);
-        }
-
         .mirror-adjust-hud {
             position: absolute;
-            bottom: 25px;
-            left: 35px;
+            bottom: 20px;
+            left: 25px;
             background: rgba(15, 23, 42, 0.9);
             border: 1px solid var(--hud-cyan);
             border-radius: 12px;
-            padding: 10px 18px;
+            padding: 8px 16px;
             font-family: monospace;
             font-size: 0.85rem;
             color: #f8fafc;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             box-shadow: 0 0 20px rgba(0,243,255,0.25);
+            z-index: 10;
         }
 
         .status-icon {
-            width: 28px;
-            height: 18px;
+            width: 26px;
+            height: 16px;
             background: var(--hud-cyan);
             border-radius: 4px;
             box-shadow: 0 0 10px var(--hud-cyan);
@@ -211,23 +242,21 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - 3D Biometric Head & Mirror Simulator</p>
+        <p>AION Matrix Lab - Real Cockpit View & Optical Tracking</p>
     </div>
 
     <div class="cabin-view" id="cabin">
         
+        <div class="road-perspective">
+            <div class="road-lane"></div>
+        </div>
+
         <div class="windshield-hud">
             <div>L-ANG: <span id="langVal">15°</span></div>
             <div>R-ANG: <span id="rangVal">18°</span></div>
         </div>
 
-        <div class="head-tracker-stage">
-            <div class="head-3d" id="head3d">
-                <div class="eye-sensor eye-left"><div class="pupil-3d" id="pupilL"></div></div>
-                <div class="eye-sensor eye-right"><div class="pupil-3d" id="pupilR"></div></div>
-            </div>
-        </div>
-
+        <!-- 1. FENTI TÜKÖR -->
         <div class="mirror-wrapper">
             <div class="mirror-stem"></div>
             <div class="mirror-housing">
@@ -236,6 +265,14 @@
                         user verified
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- 2. ALULI TEKINTET / FEJ TRACKER -->
+        <div class="head-tracker-stage">
+            <div class="head-3d" id="head3d">
+                <div class="eye-sensor eye-left"><div class="pupil-3d" id="pupilL"></div></div>
+                <div class="eye-sensor eye-right"><div class="pupil-3d" id="pupilR"></div></div>
             </div>
         </div>
 

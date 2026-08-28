@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Locked Pro Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Corrected Pro Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -90,10 +90,10 @@
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: TISZTA TÁJ, AUTÓ NÉLKÜL (FIX) */
+        /* BAL TÜKÖR: ITT LEGYEN A TISZTA HÁTTÉR (AUTÓ NÉLKÜL) */
         .left-fix { top: -120%; left: -120%; transform: scaleX(-1); }
 
-        /* JOBB TÜKÖR: ITT A KOCSI ELEJE (FIX) */
+        /* JOBB TÜKÖR: ITT LEGYEN A JEEP ELEJE */
         .right-fix { top: -20%; right: -10%; left: auto; transform: scaleX(-1); }
 
         /* KÖZÉPSŐ TÜKÖR */
@@ -193,16 +193,16 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Locked Pro Mirrors</p>
+        <p>AION Matrix Lab - Corrected Pro Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR -->
+        <!-- BAL KÜLSŐ TÜKÖR (MOST TISZTA HÁTTÉR) -->
         <div class="side-mirror-container side-mirror-left-pos">
-            <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
+            <div class="side-mirror-housing left-shape">
                 <div class="side-mirror-glass">
-                    <div class="mirror-master-bg left-fix" id="leftMirrorContent"></div>
+                    <div class="mirror-master-bg left-fix"></div>
                 </div>
             </div>
         </div>
@@ -254,11 +254,11 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR -->
+        <!-- JOBB KÜLSŐ TÜKÖR (MOST ITT A JEEP) -->
         <div class="side-mirror-container side-mirror-right-pos">
-            <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
+            <div class="side-mirror-housing right-shape">
                 <div class="side-mirror-glass">
-                    <div class="mirror-master-bg right-fix" id="rightMirrorContent"></div>
+                    <div class="mirror-master-bg right-fix"></div>
                 </div>
             </div>
         </div>
@@ -272,8 +272,6 @@
         const pupilR = document.getElementById('pupilR');
         const mirrorGlass = document.getElementById('mirrorGlass');
         const centerMirrorContent = document.getElementById('centerMirrorContent');
-        const leftMirrorHousing = document.getElementById('leftMirrorHousing');
-        const rightMirrorHousing = document.getElementById('rightMirrorHousing');
         const reticle = document.getElementById('reticle');
         const langVal = document.getElementById('langVal');
         const rangVal = document.getElementById('rangVal');
@@ -307,11 +305,6 @@
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
             centerMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 1.5}px, ${-rotX}px)`;
-
-            leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
-            rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
-
-            // A külső tükrök háttere mostantól fixen a helyén marad, nincs egér általi felülírás!
 
             const currentAng = Math.round(18 + (x / 22));
             const targetAng = Math.round(24 + (y / 22));

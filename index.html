@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Digital Visual HUD</title>
+    <title>Aion Drive-Eye v1.1.0 - Real-World Mirror Simulator</title>
     <style>
         :root {
-            --bg-color: #030712;
-            --cyan-glow: #00f3ff;
-            --panel-bg: rgba(15, 23, 42, 0.85);
+            --hud-green: #22c55e;
+            --hud-cyan: #00f3ff;
+            --bg-dark: #090d16;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
             color: #f8fafc;
             margin: 0;
             padding: 15px;
@@ -21,226 +21,199 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 50% 30%, rgba(0, 243, 255, 0.1) 0%, transparent 70%),
-                linear-gradient(rgba(0, 243, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
-            background-size: 100% 100%, 25px 25px, 25px 25px;
             touch-action: none;
         }
 
-        .header { text-align: center; margin-bottom: 15px; }
+        .header { text-align: center; margin-bottom: 10px; }
+        h1 { color: var(--hud-cyan); margin: 0; font-size: 1.5rem; text-shadow: 0 0 10px var(--hud-cyan); }
+        p { color: #94a3b8; font-size: 0.8rem; margin-top: 4px; }
 
-        h1 {
-            color: var(--cyan-glow);
-            font-size: 1.6rem;
-            letter-spacing: 2px;
-            text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
-            margin: 0 0 4px 0;
-            text-transform: uppercase;
-        }
-
-        .subtitle { color: #94a3b8; font-size: 0.8rem; }
-
-        .cockpit-view {
+        /* JÁRMŰ KABIN SZIMULÁCIÓ */
+        .cabin-view {
             width: 100%;
-            max-width: 650px;
-            height: 460px;
-            background: var(--panel-bg);
-            border: 1px solid rgba(0, 243, 255, 0.4);
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
+            max-width: 680px;
+            height: 420px;
+            background: radial-gradient(circle at 50% 100%, #1e293b 0%, #020617 80%);
+            border: 2px solid #334155;
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
-            box-sizing: border-box;
-        }
-
-        .hud-top-bar {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            color: var(--cyan-glow);
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            padding-bottom: 6px;
-        }
-
-        .eye-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 5px;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        .eye-track {
-            width: 75px;
-            height: 75px;
-            border: 2px solid var(--cyan-glow);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
-            background: rgba(0, 243, 255, 0.03);
+        /* SZÉLVEDŐ HUD KIJELZŐ (ZÖLD ANGLES) */
+        .windshield-hud {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-family: monospace;
+            color: var(--hud-green);
+            font-size: 0.9rem;
+            text-align: right;
+            text-shadow: 0 0 8px var(--hud-green);
+            pointer-events: none;
+            line-height: 1.4;
         }
 
-        .pupil {
-            width: 24px;
-            height: 24px;
-            background: radial-gradient(circle, #ffffff 10%, var(--cyan-glow) 80%);
-            border-radius: 50%;
-            box-shadow: 0 0 18px var(--cyan-glow);
-            transition: transform 0.02s ease-out;
-        }
-
-        /* Digitális Vizális Tükör / Kamera kijelző */
-        .digital-mirror-display {
-            width: 90%;
-            height: 120px;
+        /* FIX KÜLSŐ TÜKÖRHÁZ */
+        .mirror-housing {
+            width: 280px;
+            height: 110px;
             background: #020617;
-            border: 2px solid var(--cyan-glow);
-            border-radius: 12px;
+            border: 4px solid #1e293b;
+            border-radius: 18px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-shadow: inset 0 0 15px #000, 0 10px 25px rgba(0,0,0,0.7);
+            margin-top: 20px;
         }
 
-        .camera-feed {
-            width: 120%;
-            height: 120%;
+        /* MOZGÓ BELSŐ TÜKÖRKÉP */
+        .mirror-inner-glass {
+            width: 130%;
+            height: 130%;
             position: absolute;
+            top: -15%;
+            left: -15%;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.15) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.15) 2px, transparent 2px);
-            background-size: 40px 40px;
-            transition: transform 0.03s ease-out;
+                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.15), transparent 60%),
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: transform 0.03s ease-out;
         }
 
-        .lane-lines {
+        /* USER VERIFIED TÁRGYI KERET A TÜKÖRBEN */
+        .target-reticle {
             width: 140px;
-            height: 100%;
-            border-left: 3px dashed rgba(0, 243, 255, 0.6);
-            border-right: 3px dashed rgba(0, 243, 255, 0.6);
-            transform: perspective(200px) rotateX(45deg);
-        }
-
-        .hud-overlay {
-            position: absolute;
-            top: 8px;
-            left: 12px;
-            font-size: 0.65rem;
-            color: var(--cyan-glow);
-            font-weight: bold;
-            letter-spacing: 1px;
-            z-index: 2;
-        }
-
-        .telemetry-panel {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            background: rgba(2, 6, 23, 0.8);
-            border: 1px solid rgba(0, 243, 255, 0.2);
+            height: 60px;
+            border: 2px dashed var(--hud-cyan);
             border-radius: 8px;
-            padding: 8px 12px;
-            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--hud-cyan);
             font-family: monospace;
             font-size: 0.75rem;
-            color: var(--cyan-glow);
+            letter-spacing: 1px;
+            box-shadow: 0 0 12px rgba(0,243,255,0.3);
+            text-transform: lowercase;
         }
 
-        .telemetry-item { display: flex; justify-content: space-between; }
-        .val { color: #ffffff; font-weight: bold; }
+        /* ALSÓ BEÁLLÍTÁSI STATUS HUD */
+        .mirror-adjust-hud {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--hud-cyan);
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 0 15px rgba(0,243,255,0.2);
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 16px;
+            background: var(--hud-cyan);
+            border-radius: 3px;
+            box-shadow: 0 0 8px var(--hud-cyan);
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <div class="subtitle">Digitális Kamera & Biometrikus Szemkövető HUD</div>
+        <p>Valós idejű Optikai Szögtükrözés & HUD Szimuláció</p>
     </div>
 
-    <div class="cockpit-view" id="cockpit">
-        <div class="hud-top-bar">
-            <span>SYS.STATUS: ONLINE</span>
-            <span>AION MATRIX LABS</span>
-            <span>MODE: DIGITAL CAM</span>
+    <div class="cabin-view" id="cabin">
+        
+        <!-- SZÉLVEDŐ HUD DISPLAY (KÉPEK ALAPJÁN) -->
+        <div class="windshield-hud">
+            <div>L-ANG: <span id="langVal">15°</span></div>
+            <div>R-ANG: <span id="rangVal">18°</span></div>
         </div>
 
-        <div class="eye-container">
-            <div class="eye-track">
-                <div class="pupil" id="pupil"></div>
+        <!-- FIX TÜKÖRHÁZ A MOZGÓ BELSŐ ÜVEGGEL -->
+        <div class="mirror-housing">
+            <div class="mirror-inner-glass" id="mirrorGlass">
+                <div class="target-reticle" id="reticle">
+                    user verified
+                </div>
             </div>
         </div>
 
-        <div class="digital-mirror-display">
-            <div class="hud-overlay">LIVE CAM FEED [REAR VIEW]</div>
-            <div class="camera-feed" id="cameraFeed">
-                <div class="lane-lines"></div>
+        <!-- LOWER ADJUSTMENT PANEL (KÉPEK ALAPJÁN) -->
+        <div class="mirror-adjust-hud">
+            <div class="status-icon"></div>
+            <div>
+                <div>Current: <span id="currVal">15°</span></div>
+                <div>Target: <span id="targVal">18°</span></div>
             </div>
         </div>
 
-        <div class="telemetry-panel">
-            <div class="telemetry-item"><span>TEKINTET (X,Y):</span> <span class="val" id="eyeCoords">0, 0</span></div>
-            <div class="telemetry-item"><span>KAMERA PAN:</span> <span class="val" id="panVal">0.0°</span></div>
-            <div class="telemetry-item"><span>VAKFOLT KOCKÁZAT:</span> <span class="val" id="riskVal" style="color: #4ade80;">ALACSONY (0%)</span></div>
-            <div class="telemetry-item"><span>KAMERA TILT:</span> <span class="val" id="tiltVal">0.0°</span></div>
-        </div>
     </div>
 
     <script>
-        const cockpit = document.getElementById('cockpit');
-        const pupil = document.getElementById('pupil');
-        const cameraFeed = document.getElementById('cameraFeed');
-        const eyeCoords = document.getElementById('eyeCoords');
-        const panVal = document.getElementById('panVal');
-        const tiltVal = document.getElementById('tiltVal');
-        const riskVal = document.getElementById('riskVal');
+        const cabin = document.getElementById('cabin');
+        const mirrorGlass = document.getElementById('mirrorGlass');
+        const reticle = document.getElementById('reticle');
+        const langVal = document.getElementById('langVal');
+        const rangVal = document.getElementById('rangVal');
+        const currVal = document.getElementById('currVal');
+        const targVal = document.getElementById('targVal');
 
-        function updateTracking(clientX, clientY) {
-            const rect = cockpit.getBoundingClientRect();
+        function processMotion(clientX, clientY) {
+            const rect = cabin.getBoundingClientRect();
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
-            // Vajpuha szembogár mozgás
-            const pupilX = Math.max(-25, Math.min(25, x / 8));
-            const pupilY = Math.max(-25, Math.min(25, y / 8));
-            pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+            // Kizárólag a belső tükörkép mozdul el a kereten belül!
+            const shiftX = (x / (rect.width / 2)) * 25;
+            const shiftY = (y / (rect.height / 2)) * 18;
+            mirrorGlass.style.transform = `translate(${shiftX}px, ${shiftY}px)`;
 
-            // Digitális Kamera Pásztázás (Visual Shift)
-            const pan = -(x / (rect.width / 2)) * 40;
-            const tilt = -(y / (rect.height / 2)) * 30;
-            cameraFeed.style.transform = `translate(${pan}px, ${tilt}px)`;
+            // Szögértékek dinamikus változása a tekintet alapján
+            const currentAng = Math.round(15 + (x / 30));
+            const targetAng = Math.round(18 + (y / 30));
 
-            const risk = Math.min(100, Math.round((Math.abs(x) + Math.abs(y)) / 3.5));
+            langVal.innerText = `${currentAng}°`;
+            rangVal.innerText = `${targetAng}°`;
+            currVal.innerText = `${currentAng}°`;
+            targVal.innerText = `${targetAng}°`;
 
-            eyeCoords.innerText = `${Math.round(x)}, ${Math.round(y)}`;
-            panVal.innerText = `${(-pan).toFixed(1)}°`;
-            tiltVal.innerText = `${(-tilt).toFixed(1)}°`;
-
-            riskVal.innerText = `${risk < 40 ? 'ALACSONY' : risk < 75 ? 'KÖZEPES' : 'MAGAS'} (${risk}%)`;
-            riskVal.style.color = risk < 40 ? '#4ade80' : risk < 75 ? '#facc15' : '#f87171';
+            if (Math.abs(x) < 40 && Math.abs(y) < 40) {
+                reticle.innerText = "user verified";
+                reticle.style.borderColor = "#00f3ff";
+                reticle.style.color = "#00f3ff";
+            } else {
+                reticle.innerText = "tracking...";
+                reticle.style.borderColor = "#22c55e";
+                reticle.style.color = "#22c55e";
+            }
         }
 
-        cockpit.addEventListener('mousemove', (e) => updateTracking(e.clientX, e.clientY));
-        cockpit.addEventListener('touchmove', (e) => {
+        cabin.addEventListener('mousemove', (e) => processMotion(e.clientX, e.clientY));
+        cabin.addEventListener('touchmove', (e) => {
             if(e.touches.length > 0) {
-                updateTracking(e.touches[0].clientX, e.touches[0].clientY);
+                processMotion(e.touches[0].clientX, e.touches[0].clientY);
             }
         });
     </script>

@@ -332,20 +332,44 @@
             box-shadow: 0 0 8px var(--hud-cyan);
         }
 
-        /* AZ ÉLESÍTETT KÖZÉPSŐ KÉP 100%-OS ZOOMMAL */
-        .center-kresz-mirror {
+        /* TISZTA CSS KÖZÉPSŐ TÜKÖR GRAFIKA (KÉK AUTÓ A SÁVBAN ÉS KERÍTÉS) */
+        .center-kresz-sim {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: url('data:image/jpeg;base64,...') center/cover no-repeat; /* Helyette betöltjük tisztán */
+            background: #8e8e8e;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
         }
-        
-        .center-exact-img {
+
+        .road-strip {
             position: absolute;
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            filter: contrast(1.15) brightness(1.05);
+            background: linear-gradient(180deg, #b0b0b0 40%, #4a4a4a 40%);
+        }
+
+        .wall-left, .wall-right {
+            position: absolute;
+            top: 30%;
+            width: 35%;
+            height: 30%;
+            background: #2b2b2b;
+            border-top: 3px solid #1a1a1a;
+        }
+        .wall-left { left: 0; transform: skewY(15deg); }
+        .wall-right { right: 0; transform: skewY(-15deg); }
+
+        .blue-car-center {
+            position: absolute;
+            bottom: 25px;
+            width: 90px;
+            height: 50px;
+            background: #3b82f6;
+            border-radius: 12px 12px 6px 6px;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+            border: 2px solid #93c5fd;
         }
     </style>
 </head>
@@ -390,13 +414,18 @@
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR PONTOSAN AZ ELKÜLDÖTT KÉPPEL -->
+            <!-- KÖZÉPSŐ TÜKÖR PONTOSAN LEKÓDOLVA A KÉP ALAPJÁN -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <div class="mirror-canvas" id="centerMirrorContent">
-                            <img src="https://i.ibb.co/1G05kZ0/IMG-20260828-204324.jpg" class="center-exact-img" alt="Középső tükör KRESZ">
+                            <div class="center-kresz-sim">
+                                <div class="road-strip"></div>
+                                <div class="wall-left"></div>
+                                <div class="wall-right"></div>
+                                <div class="blue-car-center"></div>
+                            </div>
                         </div>
                         <div class="target-reticle" id="reticle">
                             user verified

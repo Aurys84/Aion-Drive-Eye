@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Synchronized Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Ultimate Sync</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -72,18 +72,18 @@
         }
 
         .mirror-canvas {
-            width: 120%;
-            height: 120%;
+            width: 130%;
+            height: 130%;
             position: absolute;
             transition: transform 0.04s ease-out;
-            background-size: 350%;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
 
         .left-mirror-bg { background-image: url('Ball tükör terv.png'); }
         .right-mirror-bg { background-image: url('Jobb tükör terv.png'); }
-        .center-mirror-bg { background-image: url('Középső tükör terv.png'); background-size: 280%; }
+        .center-mirror-bg { background-image: url('Középső tükör terv.png'); }
 
         /* SZÉLVEDŐ KILÁTÁS */
         .windshield-frame {
@@ -316,7 +316,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Synchronized Mirrors</p>
+        <p>AION Matrix Lab - Ultimate Sync</p>
     </div>
 
     <div class="cockpit-container">
@@ -432,7 +432,7 @@
             const shiftX = (x / (rect.width / 2)) * 14;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
-            centerMirrorContent.style.transform = `translate(${-shiftX * 2.2}px, ${-rotX * 1.3}px)`;
+            centerMirrorContent.style.transform = `translate(${-shiftX * 1.8}px, ${-rotX * 1.0}px)`;
 
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;

@@ -91,13 +91,13 @@
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: CSAK TÁJ, AUTÓ NÉLKÜL */
-        .left-fix { top: -80%; left: -80%; transform: scaleX(-1); }
+        /* BAL TÜKÖR: ITT A KOCSI ELEJE (VÁLTOZATLAN) */
+        .left-fix { top: -20%; left: -10%; transform: scaleX(-1); }
 
-        /* JOBB TÜKÖR: ITT A KOCSI ELEJE */
-        .right-fix { top: -20%; right: -10%; left: auto; transform: scaleX(-1); }
+        /* JOBB TÜKÖR: CSAK TÁJ, AUTÓ NÉLKÜL (ITM MÓDOSÍTVA TISZTA HÁTTÉRRE) */
+        .right-fix { top: -120%; right: -120%; left: auto; transform: scaleX(-1); }
 
-        /* KÖZÉPSŐ TÜKÖR: KÖVETŐ AUTÓ */
+        /* KÖZÉPSŐ TÜKÖR: KÖVETŐ AUTÓ (VÁLTOZATLAN) */
         .center-fix { top: -40%; left: -60%; transform: scaleX(-1); }
 
         .windshield-frame {
@@ -199,7 +199,7 @@
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR (CSAK TÁJ) -->
+        <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
@@ -219,7 +219,7 @@
                     <span class="led led-red">🛢️</span>
                     <span class="led led-red">🔋</span>
                     <span class="led led-red">🛑</span>
-                    <span class="speedo-display"><span id="speedVal">90</span> KM/H</span>
+                    <span class="speedo-display"><span id="speedVal">91</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
                     <div>L-ANG: <span id="langVal">18°</span></div>
@@ -255,7 +255,7 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (AUTÓVAL) -->
+        <!-- JOBB KÜLSŐ TÜKÖR (AUTÓ NÉLKÜL) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
@@ -284,7 +284,7 @@
         const targVal = document.getElementById('targVal');
         const speedVal = document.getElementById('speedVal');
 
-        let speed = 90;
+        let speed = 91;
         setInterval(() => {
             speed = 88 + Math.floor(Math.random() * 5);
             speedVal.innerText = speed;

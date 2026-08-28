@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Real Physics Cockpit</title>
+    <title>Aion Drive-Eye v1.1.0 - Isolated Pro Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -82,24 +82,38 @@
             overflow: hidden;
         }
 
-        /* TÁGABB LÁTÓSZÖG (120% ZOOM) ÉS VALÓSÁGHŰ BEÁLLÍTÁS */
-        .shared-mirror-bg {
+        /* BAL KÜLSŐ TÜKÖR (100% ZOOM - ITT A KOCSI) */
+        .left-mirror-bg {
             position: absolute;
-            width: 120%;
-            height: 120%;
-            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
             transition: transform 0.04s ease-out;
-            filter: brightness(0.9) contrast(1.1);
+            transform: scaleX(-1);
+            filter: brightness(0.9);
         }
 
-        /* BAL KÜLSŐ: ITT LÁTSZIK A MELLETTÜNK LÉVŐ KOCSI */
-        .left-crop { top: 0%; left: 0%; transform: scaleX(-1); }
+        /* JOBB KÜLSŐ TÜKÖR (TELJESEN MÁS KÉP, AUTÓ NÉLKÜL) */
+        .right-mirror-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
+            transition: transform 0.04s ease-out;
+            filter: brightness(0.85);
+        }
 
-        /* JOBB KÜLSŐ: CSAK A TISZTA HÁTTÉR ÉS TÁJ, AUTÓ NÉLKÜL */
-        .right-crop { top: -40% !important; right: -50% !important; left: auto; transform: scaleX(-1); }
-
-        /* KÖZÉPSŐ TÜKÖR: KICSIT BALRA TOLVA, HOGY A KOCSI MÁR KIFELE TARTSON */
-        .center-crop { top: -10%; left: -10%; transform: scaleX(-1); }
+        /* KÖZÉPSŐ TÜKÖR (HÁTRAFELÉ NÉZŐ ÚT) */
+        .center-mirror-bg {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+            transition: transform 0.04s ease-out;
+            filter: brightness(0.9);
+        }
 
         .windshield-frame {
             width: 82%;
@@ -195,15 +209,16 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Real Physics Cockpit</p>
+        <p>AION Matrix Lab - Isolated Pro Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
+        <!-- BAL KÜLSŐ TÜKÖR (AUTÓVAL) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="shared-mirror-bg left-crop" id="leftMirrorContent"></div>
+                    <div class="left-mirror-bg" id="leftMirrorContent"></div>
                 </div>
             </div>
         </div>
@@ -219,7 +234,7 @@
                     <span class="led led-red">🛢️</span>
                     <span class="led led-red">🔋</span>
                     <span class="led led-red">🛑</span>
-                    <span class="speedo-display"><span id="speedVal">88</span> KM/H</span>
+                    <span class="speedo-display"><span id="speedVal">90</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
                     <div>L-ANG: <span id="langVal">18°</span></div>
@@ -227,11 +242,12 @@
                 </div>
             </div>
 
+            <!-- KÖZÉPSŐ TÜKÖR -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="shared-mirror-bg center-crop" id="centerMirrorContent"></div>
+                        <div class="center-mirror-bg" id="centerMirrorContent"></div>
                         <div class="target-reticle" id="reticle">tracking...</div>
                     </div>
                 </div>
@@ -254,10 +270,11 @@
 
         </div>
 
+        <!-- JOBB KÜLSŐ TÜKÖR (CSAK TÁJ, AUTÓ NÉLKÜL) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="shared-mirror-bg right-crop" id="rightMirrorContent"></div>
+                    <div class="right-mirror-bg" id="rightMirrorContent"></div>
                 </div>
             </div>
         </div>
@@ -282,9 +299,9 @@
         const targVal = document.getElementById('targVal');
         const speedVal = document.getElementById('speedVal');
 
-        let speed = 88;
+        let speed = 90;
         setInterval(() => {
-            speed = 87 + Math.floor(Math.random() * 5);
+            speed = 88 + Math.floor(Math.random() * 5);
             speedVal.innerText = speed;
         }, 1500);
 
@@ -307,13 +324,13 @@
             const shiftX = (x / (rect.width / 2)) * 14;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
-            centerMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 2.2}px, ${-rotX * 1.3}px)`;
+            centerMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX}px)`;
 
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            leftMirrorContent.style.transform = `scaleX(-1) translate(${shiftX * 1.5}px, ${rotX * 0.6}px)`;
-            rightMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 1.5}px, ${rotX * 0.6}px)`;
+            leftMirrorContent.style.transform = `scaleX(-1) translate(${shiftX}px, ${rotX * 0.5}px)`;
+            rightMirrorContent.style.transform = `translate(${-shiftX}px, ${rotX * 0.5}px)`;
 
             const currentAng = Math.round(18 + (x / 22));
             const targetAng = Math.round(19 + (y / 22));

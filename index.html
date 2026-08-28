@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Transparent Mirror Cutout</title>
+    <title>Aion Drive-Eye v1.1.0 - Pure CSS Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -46,28 +46,37 @@
 
         .side-mirror-container {
             position: absolute;
-            top: 130px;
-            width: 210px;
-            height: 150px;
+            top: 140px;
+            width: 170px;
+            height: 120px;
             perspective: 600px;
             z-index: 20;
         }
 
-        .side-mirror-left-pos { left: -25px; }
-        .side-mirror-right-pos { right: -25px; }
+        .side-mirror-left-pos { left: -10px; }
+        .side-mirror-right-pos { right: -10px; }
 
         .side-mirror-housing {
             width: 100%;
             height: 100%;
-            background: transparent;
-            border: none;
-            box-shadow: none;
+            background: #000;
+            border: 3px solid var(--hud-cyan);
+            border-radius: 25px;
+            box-shadow: 0 0 20px rgba(0,243,255,0.4);
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
-            overflow: visible;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
+            background-image: url('Ball tükör terv.png');
+            background-size: 350%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .side-mirror-container.side-mirror-right-pos .side-mirror-housing {
+            background-image: url('Jobb tükör terv.png');
+            background-size: 350%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .mirror-canvas {
@@ -78,17 +87,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: transparent;
-            overflow: hidden;
-        }
-
-        .real-mirror-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(2.4);
-            mix-blend-mode: screen; /* ELTÜNTETI A FEHÉR HÁTTERET IS */
-            filter: drop-shadow(0 0 15px rgba(0,243,255,0.6));
         }
 
         /* SZÉLVEDŐ KILÁTÁS */
@@ -195,14 +193,20 @@
         }
 
         .mirror-housing-center {
-            width: 380px;
-            height: 130px;
-            background: transparent;
-            border: none;
+            width: 350px;
+            height: 110px;
+            background: #000;
+            border: 3px solid var(--hud-cyan);
+            border-radius: 20px;
             position: relative;
-            overflow: visible;
+            overflow: hidden;
             perspective: 700px;
             z-index: 2;
+            box-shadow: 0 0 20px rgba(0,243,255,0.4);
+            background-image: url('Középső tükör terv.png');
+            background-size: 280%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .mirror-inner-glass {
@@ -215,22 +219,22 @@
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
             position: relative;
-            overflow: visible;
+            overflow: hidden;
         }
 
         .target-reticle {
             position: absolute;
             z-index: 5;
-            width: 160px;
-            height: 60px;
+            width: 150px;
+            height: 55px;
             border: 2px dashed var(--hud-cyan);
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--hud-cyan);
             font-family: monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: bold;
             letter-spacing: 1.5px;
             text-transform: lowercase;
@@ -320,7 +324,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Transparent Cutout</p>
+        <p>AION Matrix Lab - Pure CSS Mirrors</p>
     </div>
 
     <div class="cockpit-container">
@@ -328,9 +332,7 @@
         <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing" id="leftMirrorHousing">
-                <div class="mirror-canvas" id="leftMirrorContent">
-                    <img src="Ball%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" alt="Bal tükör">
-                </div>
+                <div class="mirror-canvas" id="leftMirrorContent"></div>
             </div>
         </div>
 
@@ -361,9 +363,7 @@
             <div class="mirror-wrapper">
                 <div class="mirror-housing-center">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="mirror-canvas" id="centerMirrorContent">
-                            <img src="K%C3%B6z%C3%A9ps%C5%91%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" style="transform: scale(1.8);" alt="Középső tükör">
-                        </div>
+                        <div class="mirror-canvas" id="centerMirrorContent"></div>
                         <div class="target-reticle" id="reticle">
                             user verified
                         </div>
@@ -391,9 +391,7 @@
         <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing" id="rightMirrorHousing">
-                <div class="mirror-canvas" id="rightMirrorContent">
-                    <img src="Jobb%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" alt="Jobb tükör">
-                </div>
+                <div class="mirror-canvas" id="rightMirrorContent"></div>
             </div>
         </div>
 

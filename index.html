@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Ultimate Sync</title>
+    <title>Aion Drive-Eye v1.1.0 - Perfect Restore</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -69,21 +69,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        .mirror-canvas {
-            width: 130%;
-            height: 130%;
-            position: absolute;
-            transition: transform 0.04s ease-out;
-            background-size: cover;
+            background-image: url('Ball tükör terv.png');
+            background-size: 350%;
             background-position: center;
             background-repeat: no-repeat;
         }
 
-        .left-mirror-bg { background-image: url('Ball tükör terv.png'); }
-        .right-mirror-bg { background-image: url('Jobb tükör terv.png'); }
-        .center-mirror-bg { background-image: url('Középső tükör terv.png'); }
+        .side-mirror-container.side-mirror-right-pos .side-mirror-housing {
+            background-image: url('Jobb tükör terv.png');
+            background-size: 350%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .mirror-canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transition: transform 0.04s ease-out;
+        }
 
         /* SZÉLVEDŐ KILÁTÁS */
         .windshield-frame {
@@ -199,12 +203,16 @@
             perspective: 700px;
             z-index: 2;
             box-shadow: 0 0 20px rgba(0,243,255,0.4);
+            background-image: url('Középső tükör terv.png');
+            background-size: 320%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .mirror-inner-glass {
             width: 100%;
             height: 100%;
-            background: #000;
+            background: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -316,7 +324,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Ultimate Sync</p>
+        <p>AION Matrix Lab - Perfect Restore</p>
     </div>
 
     <div class="cockpit-container">
@@ -324,7 +332,7 @@
         <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing" id="leftMirrorHousing">
-                <div class="mirror-canvas left-mirror-bg" id="leftMirrorContent"></div>
+                <div class="mirror-canvas" id="leftMirrorContent"></div>
             </div>
         </div>
 
@@ -353,9 +361,9 @@
 
             <!-- KÖZÉPSŐ TÜKÖR -->
             <div class="mirror-wrapper">
-                <div class="mirror-housing-center">
+                <div class="mirror-housing-center" id="centerMirrorHousing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="mirror-canvas center-mirror-bg" id="centerMirrorContent"></div>
+                        <div class="mirror-canvas" id="centerMirrorContent"></div>
                         <div class="target-reticle" id="reticle">
                             user verified
                         </div>
@@ -383,7 +391,7 @@
         <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing" id="rightMirrorHousing">
-                <div class="mirror-canvas right-mirror-bg" id="rightMirrorContent"></div>
+                <div class="mirror-canvas" id="rightMirrorContent"></div>
             </div>
         </div>
 
@@ -395,6 +403,7 @@
         const pupilL = document.getElementById('pupilL');
         const pupilR = document.getElementById('pupilR');
         const mirrorGlass = document.getElementById('mirrorGlass');
+        const centerMirrorHousing = document.getElementById('centerMirrorHousing');
         const centerMirrorContent = document.getElementById('centerMirrorContent');
         const leftMirrorHousing = document.getElementById('leftMirrorHousing');
         const rightMirrorHousing = document.getElementById('rightMirrorHousing');
@@ -432,13 +441,10 @@
             const shiftX = (x / (rect.width / 2)) * 14;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
-            centerMirrorContent.style.transform = `translate(${-shiftX * 1.8}px, ${-rotX * 1.0}px)`;
+            centerMirrorHousing.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
 
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
-
-            leftMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX * 0.9}px)`;
-            rightMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX * 0.9}px)`;
 
             const currentAng = Math.round(15 + (x / 22));
             const targetAng = Math.round(18 + (y / 22));

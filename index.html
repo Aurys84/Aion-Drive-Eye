@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Corrected Pro Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Locked Pro Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -87,15 +87,16 @@
             width: 250%;
             height: 250%;
             background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
-            transition: transform 0.04s ease-out;
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* ITT JÖTT A CSERE: A BAL KAPJA A TISZTA HÁTTERET, A JOBB A KOCSI ELEJÉT */
+        /* BAL TÜKÖR: TISZTA TÁJ, AUTÓ NÉLKÜL (FIX) */
         .left-fix { top: -120%; left: -120%; transform: scaleX(-1); }
+
+        /* JOBB TÜKÖR: ITT A KOCSI ELEJE (FIX) */
         .right-fix { top: -20%; right: -10%; left: auto; transform: scaleX(-1); }
 
-        /* KÖZÉPSŐ TÜKÖR (VÁLTOZATLAN) */
+        /* KÖZÉPSŐ TÜKÖR */
         .center-fix { top: -40%; left: -60%; transform: scaleX(-1); }
 
         .windshield-frame {
@@ -192,12 +193,12 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Corrected Pro Mirrors</p>
+        <p>AION Matrix Lab - Locked Pro Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR (MOST TISZTA HÁTTÉR) -->
+        <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
@@ -217,7 +218,7 @@
                     <span class="led led-red">🛢️</span>
                     <span class="led led-red">🔋</span>
                     <span class="led led-red">🛑</span>
-                    <span class="speedo-display"><span id="speedVal">91</span> KM/H</span>
+                    <span class="speedo-display"><span id="speedVal">88</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
                     <div>L-ANG: <span id="langVal">18°</span></div>
@@ -253,7 +254,7 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (MOST ITT A KOCSI) -->
+        <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
@@ -273,8 +274,6 @@
         const centerMirrorContent = document.getElementById('centerMirrorContent');
         const leftMirrorHousing = document.getElementById('leftMirrorHousing');
         const rightMirrorHousing = document.getElementById('rightMirrorHousing');
-        const leftMirrorContent = document.getElementById('leftMirrorContent');
-        const rightMirrorContent = document.getElementById('rightMirrorContent');
         const reticle = document.getElementById('reticle');
         const langVal = document.getElementById('langVal');
         const rangVal = document.getElementById('rangVal');
@@ -282,9 +281,9 @@
         const targVal = document.getElementById('targVal');
         const speedVal = document.getElementById('speedVal');
 
-        let speed = 91;
+        let speed = 88;
         setInterval(() => {
-            speed = 88 + Math.floor(Math.random() * 5);
+            speed = 87 + Math.floor(Math.random() * 5);
             speedVal.innerText = speed;
         }, 1500);
 
@@ -312,8 +311,7 @@
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            leftMirrorContent.style.transform = `scaleX(-1) translate(${shiftX}px, ${rotX * 0.5}px)`;
-            rightMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX}px, ${rotX * 0.5}px)`;
+            // A külső tükrök háttere mostantól fixen a helyén marad, nincs egér általi felülírás!
 
             const currentAng = Math.round(18 + (x / 22));
             const targetAng = Math.round(24 + (y / 22));

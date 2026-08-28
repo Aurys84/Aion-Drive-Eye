@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Crystal HUD 2</title>
+    <title>Aion Drive-Eye v1.1.0 - Crystal HUD Final</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -90,13 +90,13 @@
             transition: transform 0.04s ease-out;
         }
 
-        /* SZÉLVEDŐ ÚJ HÁTTÉRREL (Szélvédőre 2.png) */
+        /* SZÉLVEDŐ FELJJEBB TOLT HÁTTÉRREL */
         .windshield-frame {
             width: 82%;
             height: 440px;
-            background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.2), rgba(3, 7, 18, 0.4)), url('Szélvédőre%202.png');
+            background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.15), rgba(3, 7, 18, 0.35)), url('Szélvédőre%202.png');
             background-size: cover;
-            background-position: center;
+            background-position: center 25%; /* FELJJEBB TOLVA, HOGY AZ ALJA JOBBAN LÁTSZÓDJON */
             image-rendering: -webkit-optimize-contrast;
             border: 3px solid rgba(0, 243, 255, 0.6);
             border-radius: 30px;
@@ -243,7 +243,6 @@
             box-shadow: 0 0 15px rgba(0,243,255,0.4);
         }
 
-        /* KÜLSŐ SÁV A SZEMEKNEK ÉS STATUSZNAK */
         .external-footer-bar {
             width: 82%;
             display: flex;
@@ -329,12 +328,11 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Crystal HUD 2</p>
+        <p>AION Matrix Lab - Crystal HUD Final</p>
     </div>
 
     <div class="cockpit-container" id="cabin">
 
-        <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing" id="leftMirrorHousing">
                 <div class="mirror-canvas" id="leftMirrorContent"></div>
@@ -348,7 +346,7 @@
                     <span class="hud-speed" id="hudSpeed">28</span>
                     <div class="hud-unit-time">
                         <span>KM/H</span>
-                        <span id="hudClock">22:57</span>
+                        <span id="hudClock">23:23</span>
                     </div>
                 </div>
                 <div class="hud-alignment-bar"></div>
@@ -357,12 +355,11 @@
             <div class="smart-windshield-hud">
                 <div class="speedo-display"><span id="speedVal">28</span> KM/H</div>
                 <div class="angle-hud">
-                    <div>L-ANG: <span id="langVal">32°</span></div>
-                    <div>R-ANG: <span id="rangVal">24°</span></div>
+                    <div>L-ANG: <span id="langVal">42°</span></div>
+                    <div>R-ANG: <span id="rangVal">25°</span></div>
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR -->
             <div class="mirror-wrapper">
                 <div class="mirror-housing-center" id="centerMirrorHousing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
@@ -376,13 +373,12 @@
 
         </div>
 
-        <!-- KÜLSŐ SÁV A SZEMEKNEK -->
         <div class="external-footer-bar">
             <div class="mirror-adjust-hud">
                 <div class="status-icon"></div>
                 <div>
-                    <div>Current: <span id="currVal">32°</span></div>
-                    <div>Target: <span id="rangValText">24°</span></div>
+                    <div>Current: <span id="currVal">42°</span></div>
+                    <div>Target: <span id="rangValText">25°</span></div>
                 </div>
             </div>
 
@@ -394,7 +390,6 @@
             </div>
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing" id="rightMirrorHousing">
                 <div class="mirror-canvas" id="rightMirrorContent"></div>
@@ -456,8 +451,8 @@
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            const currentAng = Math.round(32 + (x / 20));
-            const targetAng = Math.round(24 + (y / 20));
+            const currentAng = Math.round(42 + (x / 20));
+            const targetAng = Math.round(25 + (y / 20));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - SVG Mirror Simulator</title>
+    <title>Aion Drive-Eye v1.1.0 - Asymmetric 3-Mirror Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -74,9 +74,9 @@
         .right-shape { border-radius: 10px 24px 35px 10px; border-right: 4px solid var(--hud-cyan); }
 
         .side-mirror-glass {
-            width: 90%;
-            height: 90%;
-            background: #1e293b;
+            width: 92%;
+            height: 92%;
+            background: #0f172a;
             position: relative;
             overflow: hidden;
         }
@@ -321,20 +321,23 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - SVG Vector Mirror Reflections</p>
+        <p>AION Matrix Lab - Asymmetric 3-Mirror Real Tracking</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR (VEKTOROS UTCAI KÉP) -->
+        <!-- BAL KÜLSŐ TÜKÖR (JOBB SZÉLÉN A SAJÁT AUTÓ BAL OLDALA LÁTSZIK) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
                     <svg class="mirror-svg-canvas" id="leftMirrorContent" viewBox="0 0 100 100">
                         <rect width="100" height="100" fill="#0f172a"/>
-                        <line x1="10" y1="0" x2="40" y2="100" stroke="#00f3ff" stroke-width="3" stroke-dasharray="4"/>
-                        <rect x="20" y="30" width="25" height="15" rx="3" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
-                        <rect x="75" y="0" width="25" height="100" fill="#334155"/> <!-- Autó oldala -->
+                        <!-- Saját autó bal oldala a tükör jobb szélén -->
+                        <path d="M 72,0 L 72,100" stroke="#475569" stroke-width="20"/>
+                        <!-- Bal oldali aszfalt & sávvonat -->
+                        <line x1="20" y1="0" x2="50" y2="100" stroke="#00f3ff" stroke-width="3" stroke-dasharray="5"/>
+                        <!-- Mögöttünk jövő autó a bal sávban -->
+                        <rect x="15" y="35" width="22" height="14" rx="3" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
                     </svg>
                 </div>
             </div>
@@ -363,15 +366,15 @@
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR -->
+            <!-- KÖZÉPSŐ TÜKÖR (KÖZÉPSŐ HÁTSÓ VIEW) -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <svg class="mirror-svg-canvas" id="centerMirrorContent" viewBox="0 0 100 100">
                             <rect width="100" height="100" fill="#0f172a"/>
-                            <line x1="30" y1="0" x2="30" y2="100" stroke="#ffffff" stroke-width="2" stroke-dasharray="5"/>
-                            <line x1="70" y1="0" x2="70" y2="100" stroke="#ffffff" stroke-width="2" stroke-dasharray="5"/>
+                            <line x1="25" y1="0" x2="25" y2="100" stroke="#ffffff" stroke-width="2" stroke-dasharray="5"/>
+                            <line x1="75" y1="0" x2="75" y2="100" stroke="#ffffff" stroke-width="2" stroke-dasharray="5"/>
                             <rect x="38" y="40" width="24" height="14" rx="3" fill="#3b82f6" stroke="#00f3ff" stroke-width="1"/>
                         </svg>
                         <div class="target-reticle" id="reticle">
@@ -398,15 +401,18 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (VEKTOROS UTCAI KÉP) -->
+        <!-- JOBB KÜLSŐ TÜKÖR (BAL SZÉLÉN A SAJÁT AUTÓ JOBB OLDALA LÁTSZIK) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
                     <svg class="mirror-svg-canvas" id="rightMirrorContent" viewBox="0 0 100 100">
                         <rect width="100" height="100" fill="#0f172a"/>
-                        <line x1="90" y1="0" x2="60" y2="100" stroke="#00f3ff" stroke-width="3" stroke-dasharray="4"/>
-                        <rect x="55" y="30" width="25" height="15" rx="3" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
-                        <rect x="0" y="0" width="25" height="100" fill="#334155"/> <!-- Autó oldala -->
+                        <!-- Saját autó jobb oldala a tükör bal szélén -->
+                        <path d="M 28,0 L 28,100" stroke="#475569" stroke-width="20"/>
+                        <!-- Jobb oldali aszfalt & szegélyvonal -->
+                        <line x1="80" y1="0" x2="50" y2="100" stroke="#00f3ff" stroke-width="3" stroke-dasharray="5"/>
+                        <!-- Jobb oldali sáv növényzet/szegély sávja -->
+                        <rect x="63" y="35" width="22" height="14" rx="3" fill="#22c55e" stroke="#ffffff" stroke-width="1"/>
                     </svg>
                 </div>
             </div>
@@ -462,8 +468,9 @@
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            leftMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX * 0.8}px)`;
-            rightMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX * 0.8}px)`;
+            // Aszimmetrikus eltolás a fizikai tükörállásnak megfelelően
+            leftMirrorContent.style.transform = `translate(${-shiftX * 1.6}px, ${-rotX * 0.8}px)`;
+            rightMirrorContent.style.transform = `translate(${-shiftX * 1.6}px, ${-rotX * 0.8}px)`;
 
             const currentAng = Math.round(15 + (x / 22));
             const targetAng = Math.round(18 + (y / 22));

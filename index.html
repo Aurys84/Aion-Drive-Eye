@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Crystal HUD Final</title>
+    <title>Aion Drive-Eye v1.1.0 - Perfect Frame</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -90,13 +90,13 @@
             transition: transform 0.04s ease-out;
         }
 
-        /* SZÉLVEDŐ FELJJEBB TOLT HÁTTÉRREL */
+        /* SZÉLVEDŐ LEJJEBB HÚZOTT HÁTTÉRREL (LÁTSZIK AZ AUTÓ) */
         .windshield-frame {
             width: 82%;
             height: 440px;
-            background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.15), rgba(3, 7, 18, 0.35)), url('Szélvédőre%202.png');
+            background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.1), rgba(3, 7, 18, 0.3)), url('Szélvédőre%202.png');
             background-size: cover;
-            background-position: center 25%; /* FELJJEBB TOLVA, HOGY AZ ALJA JOBBAN LÁTSZÓDJON */
+            background-position: center 85%; /* VISSZAHÚZVA, HOGY AZ AUTÓ ÉS A PÓTKERÉK LÁTSZÓDJON */
             image-rendering: -webkit-optimize-contrast;
             border: 3px solid rgba(0, 243, 255, 0.6);
             border-radius: 30px;
@@ -328,7 +328,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Crystal HUD Final</p>
+        <p>AION Matrix Lab - Perfect Frame</p>
     </div>
 
     <div class="cockpit-container" id="cabin">
@@ -346,7 +346,7 @@
                     <span class="hud-speed" id="hudSpeed">28</span>
                     <div class="hud-unit-time">
                         <span>KM/H</span>
-                        <span id="hudClock">23:23</span>
+                        <span id="hudClock">23:26</span>
                     </div>
                 </div>
                 <div class="hud-alignment-bar"></div>

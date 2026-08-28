@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Fully Synchronized Pro Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Clean Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -91,14 +91,10 @@
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: JEEP ELEJE */
-        .left-fix { top: -20%; left: -10%; transform: scaleX(-1); }
-
-        /* JOBB TÜKÖR: TISZTA SIVATAGOS ÚT, AUTÓ NÉLKÜL */
+        /* MINDHÁROM TÜKÖR TISZTA TÁJ / ÚT (AUTÓK NÉLKÜL) */
+        .left-fix { top: -140%; left: -140%; transform: scaleX(-1); }
         .right-fix { top: -140%; right: -140%; left: auto; transform: scaleX(-1); }
-
-        /* KÖZÉPSŐ TÜKÖR: KÖVETŐ AUTÓ */
-        .center-fix { top: -40%; left: -60%; transform: scaleX(-1); }
+        .center-fix { top: -100%; left: -100%; transform: scaleX(-1); }
 
         .windshield-frame {
             width: 82%;
@@ -194,12 +190,12 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Fully Synchronized Pro Mirrors</p>
+        <p>AION Matrix Lab - Clean Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR -->
+        <!-- BAL KÜLSŐ TÜKÖR (TISZTA) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
@@ -227,7 +223,7 @@
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR -->
+            <!-- KÖZÉPSŐ TÜKÖR (TISZTA) -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
@@ -255,7 +251,7 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR -->
+        <!-- JOBB KÜLSŐ TÜKÖR (TISZTA) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
@@ -308,7 +304,6 @@
             const rotX = -(y / (rect.height / 2)) * 24;
             const shiftX = (x / (rect.width / 2)) * 14;
 
-            // Tükörüvegek és belső tartalom dinamikus mozgatása
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
             centerMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 1.5}px, ${-rotX}px)`;
 

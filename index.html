@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - 3D Real-World Mirror</title>
+    <title>Aion Drive-Eye v1.1.0 - Matrix Vision 3D HUD</title>
     <style>
         :root {
             --hud-green: #22c55e;
             --hud-cyan: #00f3ff;
-            --bg-dark: #090d16;
+            --bg-dark: #030712;
         }
 
         body {
@@ -16,121 +16,131 @@
             background-color: var(--bg-dark);
             color: #f8fafc;
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             touch-action: none;
+            box-sizing: border-box;
         }
 
-        .header { text-align: center; margin-bottom: 10px; }
-        h1 { color: var(--hud-cyan); margin: 0; font-size: 1.5rem; text-shadow: 0 0 10px var(--hud-cyan); }
-        p { color: #94a3b8; font-size: 0.8rem; margin-top: 4px; }
+        .header { text-align: center; margin-bottom: 12px; }
+        h1 { color: var(--hud-cyan); margin: 0; font-size: 1.8rem; text-shadow: 0 0 15px var(--hud-cyan); letter-spacing: 2px; }
+        p { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
 
+        /* KABIN ÉS KIJELZŐ FELNAGYÍTVA A MAXIMÁLIS LÁTVÁNYÉRT */
         .cabin-view {
-            width: 100%;
-            max-width: 680px;
-            height: 440px;
-            background: radial-gradient(circle at 50% 100%, #1e293b 0%, #020617 80%);
-            border: 2px solid #334155;
-            border-radius: 20px;
+            width: 98%;
+            max-width: 850px;
+            height: 520px;
+            background: radial-gradient(circle at 50% 100%, #1e293b 0%, #020617 85%);
+            border: 2px solid rgba(0, 243, 255, 0.4);
+            border-radius: 24px;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 25px;
             box-sizing: border-box;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: 0 0 40px rgba(0,243,255,0.15);
         }
 
+        /* ZÖLD HUD DŐLÉSSZÖG ADATOK A SZÉLVEDŐN */
         .windshield-hud {
             position: absolute;
             top: 25px;
             right: 35px;
             font-family: monospace;
             color: var(--hud-green);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            font-weight: bold;
             text-align: right;
-            text-shadow: 0 0 8px var(--hud-green);
+            text-shadow: 0 0 10px var(--hud-green);
             pointer-events: none;
-            line-height: 1.4;
+            line-height: 1.5;
+            letter-spacing: 1px;
         }
 
-        /* FIX KÜLSŐ TÜKÖRHÁZ PERSPEKTÍVA TERREL */
+        /* FELNAGYÍTOTT FIX TÜKÖRHÁZ PERSPEKTÍVA TÉRREL */
         .mirror-housing {
-            width: 300px;
-            height: 120px;
+            width: 380px;
+            height: 155px;
             background: #020617;
-            border: 4px solid #1e293b;
-            border-radius: 20px;
+            border: 5px solid #1e293b;
+            border-radius: 26px;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 20px #000, 0 10px 30px rgba(0,0,0,0.8);
-            margin-top: 15px;
-            perspective: 600px; /* 3D mélység megadása */
+            box-shadow: inset 0 0 25px #000, 0 15px 35px rgba(0,0,0,0.85);
+            margin-top: 25px;
+            perspective: 700px;
         }
 
-        /* 3D-BEN DŐLŐ BELSŐ TÜKÖRÜVEG */
+        /* 3D-BEN DŐLŐ ÉS TÉRBE KIEMELKEDŐ BELSŐ TÜKÖRÜVEG */
         .mirror-inner-glass {
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.2), transparent 60%),
-                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 100% 100%, 20px 20px;
-            border-radius: 14px;
+                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.25), transparent 65%),
+                linear-gradient(rgba(0, 243, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.08) 1px, transparent 1px);
+            background-size: 100% 100%, 25px 25px, 25px 25px;
+            border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
-            box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.2);
+            box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.3);
         }
 
+        /* USER VERIFIED TÁRGYI KERET A TÜKÖRBEN (3D Z-AXIS DRIFT) */
         .target-reticle {
-            width: 150px;
-            height: 65px;
+            width: 190px;
+            height: 85px;
             border: 2px dashed var(--hud-cyan);
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--hud-cyan);
             font-family: monospace;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            box-shadow: 0 0 12px rgba(0,243,255,0.3);
+            font-size: 0.95rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            box-shadow: 0 0 15px rgba(0,243,255,0.4);
             text-transform: lowercase;
-            transform: translateZ(20px); /* Kiemelkedik a térből */
+            transform: translateZ(30px);
         }
 
+        /* FELNAGYÍTOTT ALSÓ BEÁLLÍTÁSI STATUS HUD */
         .mirror-adjust-hud {
             position: absolute;
-            bottom: 20px;
-            left: 30px;
-            background: rgba(15, 23, 42, 0.85);
+            bottom: 25px;
+            left: 35px;
+            background: rgba(15, 23, 42, 0.9);
             border: 1px solid var(--hud-cyan);
-            border-radius: 10px;
-            padding: 8px 14px;
+            border-radius: 12px;
+            padding: 10px 18px;
             font-family: monospace;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #f8fafc;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 0 15px rgba(0,243,255,0.2);
+            gap: 15px;
+            box-shadow: 0 0 20px rgba(0,243,255,0.25);
         }
 
         .status-icon {
-            width: 24px;
-            height: 16px;
+            width: 28px;
+            height: 18px;
             background: var(--hud-cyan);
-            border-radius: 3px;
-            box-shadow: 0 0 8px var(--hud-cyan);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--hud-cyan);
         }
     </style>
 </head>
@@ -138,7 +148,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>Valós idejű 3D Optikai Szögtükrözés & HUD Szimuláció</p>
+        <p>AION Matrix Lab - Autonomous 3D Optical Mirror Simulator</p>
     </div>
 
     <div class="cabin-view" id="cabin">
@@ -180,29 +190,31 @@
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
-            // 3D Forgatás (Yaw és Pitch) kombinálva az eltolással
-            const rotY = (x / (rect.width / 2)) * 25; // Jobbra-balra dőlés
-            const rotX = -(y / (rect.height / 2)) * 20; // Fel-le dőlés
-            const shiftX = (x / (rect.width / 2)) * 10;
+            // Dinamikus 3D dőlésszög- és elmozdulás számítás
+            const rotY = (x / (rect.width / 2)) * 30;
+            const rotX = -(y / (rect.height / 2)) * 24;
+            const shiftX = (x / (rect.width / 2)) * 14;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
 
-            const currentAng = Math.round(15 + (x / 25));
-            const targetAng = Math.round(18 + (y / 25));
+            const currentAng = Math.round(15 + (x / 22));
+            const targetAng = Math.round(18 + (y / 22));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;
             currVal.innerText = `${currentAng}°`;
             targVal.innerText = `${targetAng}°`;
 
-            if (Math.abs(x) < 50 && Math.abs(y) < 50) {
+            if (Math.abs(x) < 60 && Math.abs(y) < 60) {
                 reticle.innerText = "user verified";
                 reticle.style.borderColor = "#00f3ff";
                 reticle.style.color = "#00f3ff";
+                reticle.style.boxShadow = "0 0 20px rgba(0,243,255,0.6)";
             } else {
                 reticle.innerText = "tracking...";
                 reticle.style.borderColor = "#22c55e";
                 reticle.style.color = "#22c55e";
+                reticle.style.boxShadow = "0 0 15px rgba(34,197,94,0.4)";
             }
         }
 

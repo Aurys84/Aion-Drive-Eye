@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Clean Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Pure Clean Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -84,17 +84,17 @@
 
         .mirror-master-bg {
             position: absolute;
-            width: 250%;
-            height: 250%;
+            width: 300%;
+            height: 300%;
             background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
             transition: transform 0.04s ease-out;
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* MINDHÁROM TÜKÖR TISZTA TÁJ / ÚT (AUTÓK NÉLKÜL) */
-        .left-fix { top: -140%; left: -140%; transform: scaleX(-1); }
-        .right-fix { top: -140%; right: -140%; left: auto; transform: scaleX(-1); }
-        .center-fix { top: -100%; left: -100%; transform: scaleX(-1); }
+        /* MINDHÁROM TÜKÖR TISZTA TÁJ / HORIZONT (AUTÓK NÉLKÜLI KOORDINÁTÁK) */
+        .left-fix { top: -200%; left: -200%; transform: scaleX(-1); }
+        .right-fix { top: -200%; right: -200%; left: auto; transform: scaleX(-1); }
+        .center-fix { top: -180%; left: -150%; transform: scaleX(-1); }
 
         .windshield-frame {
             width: 82%;
@@ -190,12 +190,11 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Clean Mirrors</p>
+        <p>AION Matrix Lab - Pure Clean Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR (TISZTA) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
@@ -223,7 +222,6 @@
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR (TISZTA) -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
@@ -251,7 +249,6 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (TISZTA) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Corrected Center Mirror</title>
+    <title>Aion Drive-Eye v1.1.0 - Real EduKresz Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -95,7 +95,14 @@
             align-items: center;
         }
 
-        /* ELEGÁNS ÉS TISZTA SZÉLVEDŐ KILÁTÁS */
+        .real-mirror-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.1) brightness(1.02);
+        }
+
+        /* SZÉLVEDŐ KILÁTÁS */
         .windshield-frame {
             width: 82%;
             height: 100%;
@@ -331,79 +338,24 @@
             border-radius: 3px;
             box-shadow: 0 0 8px var(--hud-cyan);
         }
-
-        /* PONTOS KÖZÉPSŐ TÜKÖR ARÁNYOK A KÉP ALAPJÁN */
-        .center-kresz-sim {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #dcdcdc;
-            overflow: hidden;
-        }
-
-        .sky-bg {
-            position: absolute;
-            width: 100%;
-            height: 45%;
-            background: #b5b5b5;
-        }
-
-        .road-bg {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 55%;
-            background: #404040;
-        }
-
-        .building-left {
-            position: absolute;
-            top: 20%;
-            left: 0;
-            width: 38% ;
-            height: 30%;
-            background: #252525;
-            border-top: 2px solid #111;
-        }
-
-        .building-right {
-            position: absolute;
-            top: 20%;
-            right: 0;
-            width: 38%;
-            height: 30%;
-            background: #252525;
-            border-top: 2px solid #111;
-        }
-
-        .blue-car-center {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 110px;
-            height: 60px;
-            background: #2563eb;
-            border-radius: 14px 14px 6px 6px;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.9);
-            border: 2px solid #93c5fd;
-        }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Precision Cockpit Simulator</p>
+        <p>AION Matrix Lab - Real EduKresz Mirror Integration</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR -->
+        <!-- BAL KÜLSŐ TÜKÖR (VALÓDI KÉP) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-canvas" id="leftMirrorContent"></div>
+                    <div class="mirror-canvas" id="leftMirrorContent">
+                        <img src="IMG_20260828_204618.jpg" class="real-mirror-img" alt="Bal tükör">
+                    </div>
                 </div>
             </div>
         </div>
@@ -431,19 +383,13 @@
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR TÖKÉLETES ARÁNYOKKAL -->
+            <!-- KÖZÉPSŐ TÜKÖR (VALÓDI KÉP) -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <div class="mirror-canvas" id="centerMirrorContent">
-                            <div class="center-kresz-sim">
-                                <div class="sky-bg"></div>
-                                <div class="road-bg"></div>
-                                <div class="building-left"></div>
-                                <div class="building-right"></div>
-                                <div class="blue-car-center"></div>
-                            </div>
+                            <img src="IMG_20260828_204324_2.jpg" class="real-mirror-img" alt="Középső tükör">
                         </div>
                         <div class="target-reticle" id="reticle">
                             user verified
@@ -469,11 +415,13 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR -->
+        <!-- JOBB KÜLSŐ TÜKÖR (VALÓDI KÉP) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-canvas" id="rightMirrorContent"></div>
+                    <div class="mirror-canvas" id="rightMirrorContent">
+                        <img src="IMG_20260828_204639.jpg" class="real-mirror-img" alt="Jobb tükör">
+                    </div>
                 </div>
             </div>
         </div>

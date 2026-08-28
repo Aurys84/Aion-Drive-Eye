@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Pure Clean Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Clean Pro Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -41,27 +41,27 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 900px;
+            perspective: 800px;
         }
 
         .side-mirror-container {
             position: absolute;
             top: 140px;
-            width: 120px;
-            height: 150px;
+            width: 115px;
+            height: 145px;
             perspective: 600px;
             z-index: 20;
         }
 
-        .side-mirror-left-pos { left: -15px; }
-        .side-mirror-right-pos { right: -15px; }
+        .side-mirror-left-pos { left: -10px; }
+        .side-mirror-right-pos { right: -10px; }
 
         .side-mirror-housing {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0f172a, #020617);
-            border: 4px solid #334155;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.95);
+            background: #020617;
+            border: 4px solid #1e293b;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
             overflow: hidden;
@@ -70,36 +70,36 @@
             align-items: center;
         }
 
-        .left-shape { border-radius: 26px 12px 12px 38px; border-left: 4px solid var(--hud-cyan); }
-        .right-shape { border-radius: 12px 26px 38px 10px; border-right: 4px solid var(--hud-cyan); }
+        .left-shape { border-radius: 24px 10px 10px 35px; border-left: 4px solid var(--hud-cyan); }
+        .right-shape { border-radius: 10px 24px 35px 10px; border-right: 4px solid var(--hud-cyan); }
 
         .side-mirror-glass {
             width: 92%;
             height: 92%;
-            background: #050b14;
-            border-radius: 8px;
+            background: #090d16;
             position: relative;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .mirror-master-bg {
+        .mirror-canvas {
+            width: 160%;
+            height: 160%;
             position: absolute;
-            width: 300%;
-            height: 300%;
-            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+            background: #0b1329;
             transition: transform 0.04s ease-out;
-            filter: brightness(0.9) contrast(1.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* MINDHÁROM TÜKÖR TISZTA TÁJ / HORIZONT (AUTÓK NÉLKÜLI KOORDINÁTÁK) */
-        .left-fix { top: -200%; left: -200%; transform: scaleX(-1); }
-        .right-fix { top: -200%; right: -200%; left: auto; transform: scaleX(-1); }
-        .center-fix { top: -180%; left: -150%; transform: scaleX(-1); }
-
+        /* ELEGÁNS ÉS TISZTA SZÉLVEDŐ KILÁTÁS */
         .windshield-frame {
             width: 82%;
             height: 100%;
-            background: #090d16;
+            background: linear-gradient(180deg, #090d16 0%, #111827 50%, #030712 100%);
             border: 3px solid rgba(0, 243, 255, 0.6);
             border-radius: 30px;
             position: relative;
@@ -110,7 +110,34 @@
             justify-content: space-between;
             padding: 15px;
             box-sizing: border-box;
-            box-shadow: 0 0 60px rgba(0,243,255,0.3);
+            box-shadow: 0 0 50px rgba(0,243,255,0.25);
+        }
+
+        .road-perspective {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 55%;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            overflow: hidden;
+            background: #0d1527;
+            border-top: 2px solid var(--hud-cyan);
+        }
+
+        .road-lane {
+            width: 280px;
+            height: 200%;
+            border-left: 8px dashed rgba(255,255,255,0.7);
+            border-right: 8px dashed rgba(255,255,255,0.7);
+            transform: perspective(300px) rotateX(65deg);
+            animation: moveRoad 0.35s linear infinite;
+        }
+
+        @keyframes moveRoad {
+            0% { transform: perspective(300px) rotateX(65deg) translateY(0); }
+            100% { transform: perspective(300px) rotateX(65deg) translateY(50px); }
         }
 
         .smart-windshield-hud {
@@ -133,16 +160,34 @@
             padding: 6px 12px;
             border-radius: 12px;
             align-items: center;
+            box-shadow: 0 0 15px rgba(0,243,255,0.3);
         }
 
-        .led { font-size: 0.9rem; }
+        .led { font-size: 0.9rem; filter: drop-shadow(0 0 5px currentColor); }
         .led-green { color: var(--hud-green); }
         .led-amber { color: var(--hud-amber); }
         .led-red { color: var(--hud-red); }
         .led-blue { color: var(--hud-blue); }
 
-        .speedo-display { color: var(--hud-cyan); font-size: 1.1rem; font-weight: bold; margin-left: 10px; }
-        .angle-hud { color: var(--hud-green); font-size: 0.95rem; font-weight: bold; text-align: right; background: rgba(2, 6, 23, 0.85); padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .speedo-display {
+            color: var(--hud-cyan);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-left: 10px;
+            text-shadow: 0 0 8px var(--hud-cyan);
+        }
+
+        .angle-hud {
+            color: var(--hud-green);
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: right;
+            background: rgba(2, 6, 23, 0.85);
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            text-shadow: 0 0 8px var(--hud-green);
+        }
 
         .mirror-wrapper {
             display: flex;
@@ -153,9 +198,42 @@
             margin-top: 5px;
         }
 
-        .mirror-stem { width: 16px; height: 25px; background: #334155; border-radius: 4px; margin-bottom: -5px; z-index: 1; }
-        .mirror-housing { width: 370px; height: 135px; background: #020617; border: 5px solid #334155; border-radius: 28px; position: relative; overflow: hidden; perspective: 700px; z-index: 2; }
-        .mirror-inner-glass { width: 100%; height: 100%; background: #050b14; border-radius: 20px; display: flex; justify-content: center; align-items: center; transition: transform 0.04s ease-out; transform-style: preserve-3d; position: relative; overflow: hidden; }
+        .mirror-stem {
+            width: 16px;
+            height: 25px;
+            background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
+            border: 1px solid #475569;
+            border-radius: 4px;
+            margin-bottom: -5px;
+            z-index: 1;
+        }
+
+        .mirror-housing {
+            width: 360px;
+            height: 130px;
+            background: #020617;
+            border: 5px solid #1e293b;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            perspective: 700px;
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .mirror-inner-glass {
+            width: 100%;
+            height: 100%;
+            background: #090d16;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.04s ease-out;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
 
         .target-reticle {
             position: absolute;
@@ -172,39 +250,127 @@
             font-size: 0.9rem;
             font-weight: bold;
             letter-spacing: 1.5px;
+            text-transform: lowercase;
             background: rgba(2, 6, 23, 0.75);
+            box-shadow: 0 0 15px rgba(0,243,255,0.4);
         }
 
-        .head-tracker-stage { width: 120px; height: 110px; perspective: 500px; display: flex; justify-content: center; align-items: center; z-index: 15; margin-bottom: 5px; }
-        .head-3d { width: 75px; height: 90px; background: radial-gradient(circle at 30% 30%, #3b82f6, #0f172a); border: 2px solid var(--hud-cyan); border-radius: 40px 40px 50px 50px; display: flex; justify-content: center; align-items: center; position: relative; transition: transform 0.04s ease-out; transform-style: preserve-3d; }
-        .eye-sensor { width: 18px; height: 18px; background: #ffffff; border: 3px solid var(--hud-cyan); border-radius: 50%; position: absolute; top: 30px; transition: transform 0.04s ease-out; }
+        .head-tracker-stage {
+            width: 120px;
+            height: 110px;
+            perspective: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 15;
+            margin-bottom: 5px;
+        }
+
+        .head-3d {
+            width: 75px;
+            height: 90px;
+            background: radial-gradient(circle at 30% 30%, #3b82f6, #0f172a);
+            border: 2px solid var(--hud-cyan);
+            border-radius: 40px 40px 50px 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: transform 0.04s ease-out;
+            transform-style: preserve-3d;
+            box-shadow: 0 0 20px rgba(0,243,255,0.3);
+        }
+
+        .eye-sensor {
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border: 3px solid var(--hud-cyan);
+            border-radius: 50%;
+            position: absolute;
+            top: 30px;
+            transition: transform 0.04s ease-out;
+            box-shadow: 0 0 10px var(--hud-cyan);
+        }
+
         .eye-left { left: 16px; }
         .eye-right { right: 16px; }
-        .pupil-3d { width: 7px; height: 7px; background: #000; border-radius: 50%; position: absolute; top: 5px; left: 5px; }
 
-        .mirror-adjust-hud { position: absolute; bottom: 15px; left: 20px; background: rgba(15, 23, 42, 0.92); border: 1px solid var(--hud-cyan); border-radius: 12px; padding: 8px 14px; font-family: monospace; font-size: 0.8rem; color: #f8fafc; display: flex; align-items: center; gap: 10px; z-index: 10; }
-        .status-icon { width: 24px; height: 14px; background: var(--hud-cyan); border-radius: 3px; }
+        .pupil-3d {
+            width: 7px;
+            height: 7px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        }
+
+        .mirror-adjust-hud {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--hud-cyan);
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(0,243,255,0.25);
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 14px;
+            background: var(--hud-cyan);
+            border-radius: 3px;
+            box-shadow: 0 0 8px var(--hud-cyan);
+        }
+
+        /* GRAFIKAI ELEMEK A TÜKÖRBEN */
+        .car-model {
+            width: 26px;
+            height: 14px;
+            background: #ef4444;
+            border-radius: 4px;
+            box-shadow: 0 0 10px #ef4444;
+            position: absolute;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Pure Clean Mirrors</p>
+        <p>AION Matrix Lab - Precision Cockpit Simulator</p>
     </div>
 
     <div class="cockpit-container">
 
+        <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-master-bg left-fix" id="leftMirrorContent"></div>
+                    <div class="mirror-canvas" id="leftMirrorContent">
+                        <div style="width:100%; height:100%; border-right:6px solid #334155; position:relative;">
+                            <div class="car-model" style="top:40%; left:20%;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="windshield-frame" id="cabin">
             
+            <div class="road-perspective">
+                <div class="road-lane"></div>
+            </div>
+
             <div class="smart-windshield-hud">
                 <div class="led-cluster">
                     <span class="led led-green">⬅️</span>
@@ -217,17 +383,24 @@
                     <span class="speedo-display"><span id="speedVal">90</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
-                    <div>L-ANG: <span id="langVal">18°</span></div>
-                    <div>R-ANG: <span id="rangVal">24°</span></div>
+                    <div>L-ANG: <span id="langVal">15°</span></div>
+                    <div>R-ANG: <span id="rangVal">18°</span></div>
                 </div>
             </div>
 
+            <!-- KÖZÉPSŐ TÜKÖR -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="mirror-master-bg center-fix" id="centerMirrorContent"></div>
-                        <div class="target-reticle" id="reticle">tracking...</div>
+                        <div class="mirror-canvas" id="centerMirrorContent">
+                            <div style="width:80%; height:100%; border-left:2px dashed rgba(255,255,255,0.4); border-right:2px dashed rgba(255,255,255,0.4); display:flex; justify-content:center; align-items:center; position:relative;">
+                                <div class="car-model" style="background:#3b82f6; box-shadow:0 0 10px #3b82f6; top:35%;"></div>
+                            </div>
+                        </div>
+                        <div class="target-reticle" id="reticle">
+                            user verified
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,17 +415,22 @@
             <div class="mirror-adjust-hud">
                 <div class="status-icon"></div>
                 <div>
-                    <div>Current: <span id="currVal">18°</span></div>
-                    <div>Target: <span id="targVal">24°</span></div>
+                    <div>Current: <span id="currVal">15°</span></div>
+                    <div>Target: <span id="targVal">18°</span></div>
                 </div>
             </div>
 
         </div>
 
+        <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-master-bg right-fix" id="rightMirrorContent"></div>
+                    <div class="mirror-canvas" id="rightMirrorContent">
+                        <div style="width:100%; height:100%; border-left:6px solid #334155; position:relative;">
+                            <div class="car-model" style="top:40%; right:20%;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -302,16 +480,16 @@
             const shiftX = (x / (rect.width / 2)) * 14;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
-            centerMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 1.5}px, ${-rotX}px)`;
+            centerMirrorContent.style.transform = `translate(${-shiftX * 2.2}px, ${-rotX * 1.3}px)`;
 
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            leftMirrorContent.style.transform = `scaleX(-1) translate(${shiftX}px, ${rotX * 0.5}px)`;
-            rightMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX}px, ${rotX * 0.5}px)`;
+            leftMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX * 0.9}px)`;
+            rightMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${-rotX * 0.9}px)`;
 
-            const currentAng = Math.round(18 + (x / 22));
-            const targetAng = Math.round(24 + (y / 22));
+            const currentAng = Math.round(15 + (x / 22));
+            const targetAng = Math.round(18 + (y / 22));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;

@@ -8,7 +8,7 @@
         :root {
             --hud-green: #22c55e;
             --hud-cyan: #00f3ff;
-            --bg-dark: #090d16;
+            --bg-dark: #030712;
         }
 
         body {
@@ -63,7 +63,6 @@
             letter-spacing: 1px;
         }
 
-        /* 3D BIOMETRIKUS FEJ / SZEM MODUL */
         .head-tracker-stage {
             width: 120px;
             height: 120px;
@@ -114,7 +113,25 @@
             left: 6px;
         }
 
-        /* FIX TÜKÖRHÁZ PERSPEKTÍVA TÉRREL */
+        /* TÜKÖR TARTÓKONZOL (STEM) */
+        .mirror-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .mirror-stem {
+            width: 14px;
+            height: 30px;
+            background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
+            border: 1px solid #475569;
+            box-shadow: 0 0 10px #000;
+            border-radius: 4px;
+            margin-bottom: -5px;
+            z-index: 1;
+        }
+
         .mirror-housing {
             width: 380px;
             height: 145px;
@@ -125,6 +142,7 @@
             overflow: hidden;
             box-shadow: inset 0 0 25px #000, 0 15px 35px rgba(0,0,0,0.85);
             perspective: 700px;
+            z-index: 2;
         }
 
         .mirror-inner-glass {
@@ -203,7 +221,6 @@
             <div>R-ANG: <span id="rangVal">18°</span></div>
         </div>
 
-        <!-- 3D FEJ ÉS TEKINTET TRACKER -->
         <div class="head-tracker-stage">
             <div class="head-3d" id="head3d">
                 <div class="eye-sensor eye-left"><div class="pupil-3d" id="pupilL"></div></div>
@@ -211,11 +228,13 @@
             </div>
         </div>
 
-        <!-- 3D-BEN DŐLŐ TÜKÖR -->
-        <div class="mirror-housing">
-            <div class="mirror-inner-glass" id="mirrorGlass">
-                <div class="target-reticle" id="reticle">
-                    user verified
+        <div class="mirror-wrapper">
+            <div class="mirror-stem"></div>
+            <div class="mirror-housing">
+                <div class="mirror-inner-glass" id="mirrorGlass">
+                    <div class="target-reticle" id="reticle">
+                        user verified
+                    </div>
                 </div>
             </div>
         </div>
@@ -247,7 +266,6 @@
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
-            // 1. 3D FEJ ÉS SZEMBOGÁR FORGATÁS
             const headRotY = (x / (rect.width / 2)) * 35;
             const headRotX = -(y / (rect.height / 2)) * 25;
             head3d.style.transform = `rotateY(${headRotY}deg) rotateX(${headRotX}deg)`;
@@ -257,7 +275,6 @@
             pupilL.style.transform = `translate(${px}px, ${py}px)`;
             pupilR.style.transform = `translate(${px}px, ${py}px)`;
 
-            // 2. TÜKÖR 3D DŐLÉS ÉS CSÚSZÁS
             const rotY = (x / (rect.width / 2)) * 30;
             const rotX = -(y / (rect.height / 2)) * 24;
             const shiftX = (x / (rect.width / 2)) * 14;

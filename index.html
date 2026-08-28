@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Fixed Pro Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Corrected Pro Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -82,7 +82,6 @@
             overflow: hidden;
         }
 
-        /* EGYETLEN ALapkép HASZNÁLATA A HIBÁTLAN SZINKRONHOZ */
         .mirror-master-bg {
             position: absolute;
             width: 250%;
@@ -92,11 +91,11 @@
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: AUTÓ ELEJE */
-        .left-fix { top: -20%; left: -10%; transform: scaleX(-1); }
+        /* BAL TÜKÖR: CSAK TÁJ, AUTÓ NÉLKÜL */
+        .left-fix { top: -80%; left: -80%; transform: scaleX(-1); }
 
-        /* JOBB TÜKÖR: CSAK TÁJ, AUTÓ NÉLKÜL */
-        .right-fix { top: -80%; right: -80%; left: auto; transform: scaleX(-1); }
+        /* JOBB TÜKÖR: ITT A KOCSI ELEJE */
+        .right-fix { top: -20%; right: -10%; left: auto; transform: scaleX(-1); }
 
         /* KÖZÉPSŐ TÜKÖR: KÖVETŐ AUTÓ */
         .center-fix { top: -40%; left: -60%; transform: scaleX(-1); }
@@ -195,12 +194,12 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Fixed Pro Mirrors</p>
+        <p>AION Matrix Lab - Corrected Pro Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR -->
+        <!-- BAL KÜLSŐ TÜKÖR (CSAK TÁJ) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
@@ -224,7 +223,7 @@
                 </div>
                 <div class="angle-hud">
                     <div>L-ANG: <span id="langVal">18°</span></div>
-                    <div>R-ANG: <span id="rangVal">19°</span></div>
+                    <div>R-ANG: <span id="rangVal">24°</span></div>
                 </div>
             </div>
 
@@ -250,13 +249,13 @@
                 <div class="status-icon"></div>
                 <div>
                     <div>Current: <span id="currVal">18°</span></div>
-                    <div>Target: <span id="targVal">19°</span></div>
+                    <div>Target: <span id="targVal">24°</span></div>
                 </div>
             </div>
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR -->
+        <!-- JOBB KÜLSŐ TÜKÖR (AUTÓVAL) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
@@ -319,7 +318,7 @@
             rightMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX}px, ${rotX * 0.5}px)`;
 
             const currentAng = Math.round(18 + (x / 22));
-            const targetAng = Math.round(19 + (y / 22));
+            const targetAng = Math.round(24 + (y / 22));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;

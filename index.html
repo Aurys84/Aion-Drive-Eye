@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Perfect Perspective Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Real Physics Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -82,24 +82,24 @@
             overflow: hidden;
         }
 
-        /* CSÖKKENTETT ZOOM (150%) ÉS ASZIMMETRIKUS PERSPEKTÍVA */
+        /* TÁGABB LÁTÓSZÖG (120% ZOOM) ÉS VALÓSÁGHŰ BEÁLLÍTÁS */
         .shared-mirror-bg {
             position: absolute;
-            width: 150%;
-            height: 150%;
+            width: 120%;
+            height: 120%;
             background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
             transition: transform 0.04s ease-out;
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: ITT LÁTSZIK AZ AUTÓ ELEJE/OLDALA */
-        .left-crop { top: -10%; left: -5%; transform: scaleX(-1); }
+        /* BAL KÜLSŐ: ITT LÁTSZIK A MELLETTÜNK LÉVŐ KOCSI */
+        .left-crop { top: 0%; left: 0%; transform: scaleX(-1); }
 
-        /* JOBB TÜKÖR: ITT CSAK A TÁJ / ÜRES SÁV LÁTSZIK */
-        .right-crop { top: -10%; right: -40%; left: auto; transform: scaleX(-1); }
+        /* JOBB KÜLSŐ: CSAK A TISZTA HÁTTÉR ÉS TÁJ, AUTÓ NÉLKÜL */
+        .right-crop { top: -40% !important; right: -50% !important; left: auto; transform: scaleX(-1); }
 
-        /* KÖZÉPSŐ TÜKÖR: TELIBE A KOCSI */
-        .center-crop { top: 0%; left: -25%; transform: scaleX(-1); }
+        /* KÖZÉPSŐ TÜKÖR: KICSIT BALRA TOLVA, HOGY A KOCSI MÁR KIFELE TARTSON */
+        .center-crop { top: -10%; left: -10%; transform: scaleX(-1); }
 
         .windshield-frame {
             width: 82%;
@@ -195,7 +195,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Perfect Perspective Mirrors</p>
+        <p>AION Matrix Lab - Real Physics Cockpit</p>
     </div>
 
     <div class="cockpit-container">
@@ -219,11 +219,11 @@
                     <span class="led led-red">🛢️</span>
                     <span class="led led-red">🔋</span>
                     <span class="led led-red">🛑</span>
-                    <span class="speedo-display"><span id="speedVal">92</span> KM/H</span>
+                    <span class="speedo-display"><span id="speedVal">88</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
-                    <div>L-ANG: <span id="langVal">-2°</span></div>
-                    <div>R-ANG: <span id="rangVal">8°</span></div>
+                    <div>L-ANG: <span id="langVal">18°</span></div>
+                    <div>R-ANG: <span id="rangVal">19°</span></div>
                 </div>
             </div>
 
@@ -247,8 +247,8 @@
             <div class="mirror-adjust-hud">
                 <div class="status-icon"></div>
                 <div>
-                    <div>Current: <span id="currVal">-2°</span></div>
-                    <div>Target: <span id="targVal">8°</span></div>
+                    <div>Current: <span id="currVal">18°</span></div>
+                    <div>Target: <span id="targVal">19°</span></div>
                 </div>
             </div>
 
@@ -282,9 +282,9 @@
         const targVal = document.getElementById('targVal');
         const speedVal = document.getElementById('speedVal');
 
-        let speed = 90;
+        let speed = 88;
         setInterval(() => {
-            speed = 88 + Math.floor(Math.random() * 5);
+            speed = 87 + Math.floor(Math.random() * 5);
             speedVal.innerText = speed;
         }, 1500);
 
@@ -315,8 +315,8 @@
             leftMirrorContent.style.transform = `scaleX(-1) translate(${shiftX * 1.5}px, ${rotX * 0.6}px)`;
             rightMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 1.5}px, ${rotX * 0.6}px)`;
 
-            const currentAng = Math.round(15 + (x / 22));
-            const targetAng = Math.round(18 + (y / 22));
+            const currentAng = Math.round(18 + (x / 22));
+            const targetAng = Math.round(19 + (y / 22));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;

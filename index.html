@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Full HUD Windshield</title>
+    <title>Aion Drive-Eye v1.1.0 - Crystal HUD</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -37,26 +37,27 @@
             position: relative;
             width: 100%;
             max-width: 980px;
-            height: 570px;
+            height: 590px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             perspective: 800px;
         }
 
         .side-mirror-container {
             position: absolute;
-            top: 140px;
+            top: 130px;
             width: 170px;
             height: 120px;
             perspective: 600px;
             z-index: 20;
         }
 
-        .side-mirror-left-pos { left: -10px; }
-        .side-mirror-right-pos { right: -10px; }
+        .side-mirror-left-pos { left: 15px; }
+        .side-mirror-right-pos { right: 15px; }
 
-        .side-mirror-housing {
+            .side-mirror-housing {
             width: 100%;
             height: 100%;
             background: #000;
@@ -89,13 +90,14 @@
             transition: transform 0.04s ease-out;
         }
 
-        /* SZÉLVEDŐ HÁTTÉR ÉS PROJEKTOR */
+        /* SZÉLVEDŐ ÉS KRISZTUS TISZTASÁGÚ HÁTTÉR */
         .windshield-frame {
             width: 82%;
-            height: 100%;
-            background-image: url('Szélvédőre terv.png');
+            height: 440px;
+            background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.25), rgba(3, 7, 18, 0.45)), url('Szélvédőre terv.png');
             background-size: cover;
             background-position: center;
+            image-rendering: -webkit-optimize-contrast;
             border: 3px solid rgba(0, 243, 255, 0.6);
             border-radius: 30px;
             position: relative;
@@ -109,17 +111,14 @@
             box-shadow: 0 0 50px rgba(0,243,255,0.25);
         }
 
-        /* VILÁGÍTÓ HUD A SZÉLVÉDŐN ALUL */
+        /* PROJEKTÁLT HUD ALULRA IGAZÍTVA */
         .projected-hud-overlay {
             position: absolute;
-            bottom: 45px;
+            bottom: 25px;
             width: 50%;
-            height: 30%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 15px;
             pointer-events: none;
         }
 
@@ -151,7 +150,7 @@
             height: 6px;
             background: var(--hud-green);
             border-radius: 4px;
-            margin-top: 8px;
+            margin-top: 5px;
             box-shadow: 0 0 15px var(--hud-green);
         }
 
@@ -167,28 +166,10 @@
             font-family: monospace;
         }
 
-        .led-cluster {
-            display: flex;
-            gap: 8px;
-            background: rgba(2, 6, 23, 0.85);
-            border: 1px solid rgba(0, 243, 255, 0.5);
-            padding: 6px 12px;
-            border-radius: 12px;
-            align-items: center;
-            box-shadow: 0 0 15px rgba(0,243,255,0.3);
-        }
-
-        .led { font-size: 0.9rem; filter: drop-shadow(0 0 5px currentColor); }
-        .led-green { color: var(--hud-green); }
-        .led-amber { color: var(--hud-amber); }
-        .led-red { color: var(--hud-red); }
-        .led-blue { color: var(--hud-blue); }
-
         .speedo-display {
             color: var(--hud-cyan);
             font-size: 1.1rem;
             font-weight: bold;
-            margin-left: 10px;
             text-shadow: 0 0 8px var(--hud-cyan);
         }
 
@@ -263,78 +244,82 @@
             box-shadow: 0 0 15px rgba(0,243,255,0.4);
         }
 
+        /* KÜLSŐ SZEMEK / HEAD TRACKER SÁV (KONTÉNEREN KÍVÜL) */
+        .external-footer-bar {
+            width: 82%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
         .head-tracker-stage {
-            width: 120px;
-            height: 110px;
+            width: 100px;
+            height: 50px;
             perspective: 500px;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 15;
-            margin-bottom: 5px;
         }
 
         .head-3d {
-            width: 75px;
-            height: 90px;
+            width: 50px;
+            height: 42px;
             background: radial-gradient(circle at 30% 30%, #3b82f6, #0f172a);
             border: 2px solid var(--hud-cyan);
-            border-radius: 40px 40px 50px 50px;
+            border-radius: 20px 20px 25px 25px;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
-            box-shadow: 0 0 20px rgba(0,243,255,0.3);
+            box-shadow: 0 0 15px rgba(0,243,255,0.3);
         }
 
         .eye-sensor {
-            width: 18px;
-            height: 18px;
+            width: 12px;
+            height: 12px;
             background: #ffffff;
-            border: 3px solid var(--hud-cyan);
+            border: 2px solid var(--hud-cyan);
             border-radius: 50%;
             position: absolute;
-            top: 30px;
+            top: 12px;
             transition: transform 0.04s ease-out;
-            box-shadow: 0 0 10px var(--hud-cyan);
         }
 
-        .eye-left { left: 16px; }
-        .eye-right { right: 16px; }
+        .eye-left { left: 10px; }
+        .eye-right { right: 10px; }
 
         .pupil-3d {
-            width: 7px;
-            height: 7px;
+            width: 5px;
+            height: 5px;
             background: #000;
             border-radius: 50%;
             position: absolute;
-            top: 5px;
-            left: 5px;
+            top: 2px;
+            left: 2px;
         }
 
         .mirror-adjust-hud {
-            position: absolute;
-            bottom: 15px;
-            left: 20px;
             background: rgba(15, 23, 42, 0.9);
             border: 1px solid var(--hud-cyan);
             border-radius: 12px;
-            padding: 8px 14px;
+            padding: 6px 12px;
             font-family: monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #f8fafc;
             display: flex;
             align-items: center;
             gap: 10px;
-            z-index: 10;
             box-shadow: 0 0 15px rgba(0,243,255,0.25);
         }
 
         .status-icon {
-            width: 24px;
-            height: 14px;
+            width: 20px;
+            height: 12px;
             background: var(--hud-cyan);
             border-radius: 3px;
             box-shadow: 0 0 8px var(--hud-cyan);
@@ -345,10 +330,10 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Full HUD Windshield</p>
+        <p>AION Matrix Lab - Crystal HUD</p>
     </div>
 
-    <div class="cockpit-container">
+    <div class="cockpit-container" id="cabin">
 
         <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
@@ -357,7 +342,7 @@
             </div>
         </div>
 
-        <div class="windshield-frame" id="cabin">
+        <div class="windshield-frame">
             
             <!-- SZÉLVÉDŐRE PROJEKTÁLT HUD -->
             <div class="projected-hud-overlay">
@@ -365,19 +350,17 @@
                     <span class="hud-speed" id="hudSpeed">28</span>
                     <div class="hud-unit-time">
                         <span>KM/H</span>
-                        <span id="hudClock">22:45</span>
+                        <span id="hudClock">22:57</span>
                     </div>
                 </div>
                 <div class="hud-alignment-bar"></div>
             </div>
 
             <div class="smart-windshield-hud">
-                <div class="led-cluster">
-                    <span class="speedo-display"><span id="speedVal">28</span> KM/H</span>
-                </div>
+                <div class="speedo-display"><span id="speedVal">28</span> KM/H</div>
                 <div class="angle-hud">
-                    <div>L-ANG: <span id="langVal">17°</span></div>
-                    <div>R-ANG: <span id="rangVal">17°</span></div>
+                    <div>L-ANG: <span id="langVal">32°</span></div>
+                    <div>R-ANG: <span id="rangVal">24°</span></div>
                 </div>
             </div>
 
@@ -387,9 +370,21 @@
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <div class="mirror-canvas" id="centerMirrorContent"></div>
                         <div class="target-reticle" id="reticle">
-                            user verified
+                            tracking...
                         </div>
                     </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- KÜLSŐ SÁV A SZEMEKNEK ÉS STATUSZNAK (KONTÉNEREN KÍVÜL) -->
+        <div class="external-footer-bar">
+            <div class="mirror-adjust-hud">
+                <div class="status-icon"></div>
+                <div>
+                    <div>Current: <span id="currVal">32°</span></div>
+                    <div>Target: <span id="rangValText">24°</span></div>
                 </div>
             </div>
 
@@ -399,15 +394,6 @@
                     <div class="eye-sensor eye-right"><div class="pupil-3d" id="pupilR"></div></div>
                 </div>
             </div>
-
-            <div class="mirror-adjust-hud">
-                <div class="status-icon"></div>
-                <div>
-                    <div>Current: <span id="currVal">17°</span></div>
-                    <div>Target: <span id="targVal">17°</span></div>
-                </div>
-            </div>
-
         </div>
 
         <!-- JOBB KÜLSŐ TÜKÖR -->
@@ -432,7 +418,7 @@
         const langVal = document.getElementById('langVal');
         const rangVal = document.getElementById('rangVal');
         const currVal = document.getElementById('currVal');
-        const targVal = document.getElementById('targVal');
+        const rangValText = document.getElementById('rangValText');
         const speedVal = document.getElementById('speedVal');
         const hudSpeed = document.getElementById('hudSpeed');
         const hudClock = document.getElementById('hudClock');
@@ -453,18 +439,18 @@
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
-            const headRotY = (x / (rect.width / 2)) * 35;
-            const headRotX = -(y / (rect.height / 2)) * 25;
+            const headRotY = (x / (rect.width / 2)) * 30;
+            const headRotX = -(y / (rect.height / 2)) * 20;
             head3d.style.transform = `rotateY(${headRotY}deg) rotateX(${headRotX}deg)`;
 
-            const px = (x / (rect.width / 2)) * 5;
-            const py = (y / (rect.height / 2)) * 5;
+            const px = (x / (rect.width / 2)) * 3;
+            const py = (y / (rect.height / 2)) * 3;
             pupilL.style.transform = `translate(${px}px, ${py}px)`;
             pupilR.style.transform = `translate(${px}px, ${py}px)`;
 
-            const rotY = (x / (rect.width / 2)) * 30;
-            const rotX = -(y / (rect.height / 2)) * 24;
-            const shiftX = (x / (rect.width / 2)) * 14;
+            const rotY = (x / (rect.width / 2)) * 25;
+            const rotX = -(y / (rect.height / 2)) * 20;
+            const shiftX = (x / (rect.width / 2)) * 10;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
             centerMirrorHousing.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
@@ -472,13 +458,13 @@
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            const currentAng = Math.round(17 + (x / 22));
-            const targetAng = Math.round(17 + (y / 22));
+            const currentAng = Math.round(32 + (x / 20));
+            const targetAng = Math.round(24 + (y / 20));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;
             currVal.innerText = `${currentAng}°`;
-            targVal.innerText = `${targetAng}°`;
+            rangValText.innerText = `${targetAng}°`;
 
             if (Math.abs(x) < 60 && Math.abs(y) < 60) {
                 reticle.innerText = "user verified";

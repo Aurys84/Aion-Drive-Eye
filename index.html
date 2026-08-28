@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Precise 3-Mirror Cockpit</title>
+    <title>Aion Drive-Eye v1.1.0 - High-Contrast Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -77,7 +77,8 @@
         .side-mirror-glass {
             width: 92%;
             height: 92%;
-            background: #0f172a;
+            background: #090d16;
+            border: 1px solid rgba(0, 243, 255, 0.3);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -86,56 +87,44 @@
         }
 
         .mirror-view-canvas {
-            width: 160%;
-            height: 160%;
+            width: 180%;
+            height: 180%;
             position: absolute;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             transition: transform 0.04s ease-out;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 60%, #020617 100%);
+            background: #0d1527;
         }
 
-        /* BAL TÜKÖR RENDERELLT HÁTSÓ VIEW */
-        .left-road-view {
-            width: 100%;
+        /* MAGAS KONTRASZTÚ TÜKÖRKÉPEK (SÁV ÉS MÖGÖTTÜNK LÉVŐ AUTÓ) */
+        .mirror-road {
+            width: 80%;
             height: 100%;
-            border-right: 8px solid #475569; /* Autó bal oldala */
-            box-sizing: border-box;
-            background-image: linear-gradient(135deg, rgba(0,243,255,0.1) 0%, transparent 80%);
+            border-left: 3px dashed var(--hud-cyan);
+            border-right: 3px dashed var(--hud-cyan);
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            padding-left: 10px;
+            position: relative;
         }
 
-        /* JOBB TÜKÖR RENDERELLT HÁTSÓ VIEW */
-        .right-road-view {
-            width: 100%;
-            height: 100%;
-            border-left: 8px solid #475569; /* Autó jobb oldala */
-            box-sizing: border-box;
-            background-image: linear-gradient(225deg, rgba(0,243,255,0.1) 0%, transparent 80%);
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding-right: 10px;
-        }
-
-        .car- पीछे {
-            width: 20px;
-            height: 12px;
+        .car-rear {
+            width: 30px;
+            height: 16px;
             background: #ef4444;
-            border-radius: 3px;
-            box-shadow: 0 0 6px #ef4444;
+            border: 2px solid #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 0 12px #ef4444;
+            position: absolute;
         }
 
-        /* IGAZI SZÉLVEDŐ KILÁTÁS */
+        /* TISZTA ÉS KONTRASTOS SZÉLVEDŐ NAPPALI/ÉJSZAKAI ASZFALT ROADWAY-EL */
         .windshield-frame {
             width: 82%;
             height: 100%;
-            background: radial-gradient(circle at 50% 40%, #1e293b 0%, #020617 85%);
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 45%, #090d16 46%, #111827 100%);
             border: 3px solid rgba(0, 243, 255, 0.5);
             border-radius: 30px;
             position: relative;
@@ -158,15 +147,18 @@
             justify-content: center;
             pointer-events: none;
             overflow: hidden;
+            background: #111827;
+            border-top: 2px solid var(--hud-cyan);
         }
 
         .road-lane {
-            width: 260px;
+            width: 280px;
             height: 200%;
-            border-left: 8px dashed rgba(255, 255, 255, 0.5);
-            border-right: 8px dashed rgba(255, 255, 255, 0.5);
+            border-left: 8px dashed #ffffff;
+            border-right: 8px dashed #ffffff;
+            box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.2);
             transform: perspective(300px) rotateX(65deg);
-            animation: moveRoad 0.4s linear infinite;
+            animation: moveRoad 0.35s linear infinite;
         }
 
         @keyframes moveRoad {
@@ -189,11 +181,11 @@
         .led-cluster {
             display: flex;
             gap: 8px;
-            background: rgba(2, 6, 23, 0.85);
-            border: 1px solid rgba(0, 243, 255, 0.4);
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(0, 243, 255, 0.5);
             padding: 6px 12px;
             border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,243,255,0.25);
+            box-shadow: 0 0 15px rgba(0,243,255,0.3);
             align-items: center;
         }
 
@@ -218,9 +210,10 @@
             text-shadow: 0 0 10px var(--hud-green);
             text-align: right;
             line-height: 1.4;
-            background: rgba(2, 6, 23, 0.7);
+            background: rgba(2, 6, 23, 0.85);
             padding: 6px 10px;
             border-radius: 8px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
         /* KÖZÉPSŐ TÜKÖR */
@@ -289,7 +282,7 @@
             letter-spacing: 1.5px;
             box-shadow: 0 0 15px rgba(0,243,255,0.4);
             text-transform: lowercase;
-            background: rgba(2, 6, 23, 0.6);
+            background: rgba(2, 6, 23, 0.7);
         }
 
         .head-tracker-stage {
@@ -374,18 +367,18 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Real 3-Mirror Visual Tracking</p>
+        <p>AION Matrix Lab - High-Contrast 3-Mirror Tracker</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR (BAL SÁV & ASZFALT VIEW) -->
+        <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
                     <div class="mirror-view-canvas" id="leftMirrorContent">
-                        <div class="left-road-view">
-                            <div class="car-पीछे"></div>
+                        <div class="mirror-road">
+                            <div class="car-rear" style="top: 30%; left: 20%;"></div>
                         </div>
                     </div>
                 </div>
@@ -420,8 +413,10 @@
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="mirror-view-canvas" id="centerMirrorContent" style="background:#1e293b;">
-                            <div class="car-पीछे" style="background:#3b82f6; box-shadow:0 0 8px #3b82f6;"></div>
+                        <div class="mirror-view-canvas" id="centerMirrorContent">
+                            <div class="mirror-road">
+                                <div class="car-rear" style="background:#3b82f6; box-shadow:0 0 10px #3b82f6;"></div>
+                            </div>
                         </div>
                         <div class="target-reticle" id="reticle">
                             user verified
@@ -447,13 +442,13 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (JOBB SÁV VIEW) -->
+        <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
                     <div class="mirror-view-canvas" id="rightMirrorContent">
-                        <div class="right-road-view">
-                            <div class="car-पीछे"></div>
+                        <div class="mirror-road">
+                            <div class="car-rear" style="top: 30%; right: 20%;"></div>
                         </div>
                     </div>
                 </div>
@@ -491,7 +486,7 @@
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
-            // 1. FEJ ÉS SZEMBOGÁR TRACKING
+            // 1. FEJ ÉS TEKINTET MOZGÁS
             const headRotY = (x / (rect.width / 2)) * 35;
             const headRotX = -(y / (rect.height / 2)) * 25;
             head3d.style.transform = `rotateY(${headRotY}deg) rotateX(${headRotX}deg)`;
@@ -501,20 +496,20 @@
             pupilL.style.transform = `translate(${px}px, ${py}px)`;
             pupilR.style.transform = `translate(${px}px, ${py}px)`;
 
-            // 2. KÖZÉPSŐ TÜKÖR DŐLÉS ÉS TÜKÖRKÉP VILÁG
+            // 2. KÖZÉPSŐ TÜKÖR DŐLÉS ÉS TÜKÖRKÉP ELTOLÓDÁS
             const rotY = (x / (rect.width / 2)) * 30;
             const rotX = -(y / (rect.height / 2)) * 24;
             const shiftX = (x / (rect.width / 2)) * 14;
 
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
-            centerMirrorContent.style.transform = `translate(${-shiftX * 2}px, ${-rotX * 1.2}px)`;
+            centerMirrorContent.style.transform = `translate(${-shiftX * 2.5}px, ${-rotX * 1.5}px)`;
 
-            // 3. BAL ÉS JOBB KÜLSŐ TÜKRÖK EGYEDI ELTOLÓDÁSA (OPTICAL SHIFT)
+            // 3. KÜLSŐ TÜKRÖK DŐLÉSE ÉS ELTOLÓDÁSA
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            leftMirrorContent.style.transform = `translate(${-shiftX * 1.8}px, ${-rotX * 0.8}px)`;
-            rightMirrorContent.style.transform = `translate(${-shiftX * 1.8}px, ${-rotX * 0.8}px)`;
+            leftMirrorContent.style.transform = `translate(${-shiftX * 2}px, ${-rotX * 1.2}px)`;
+            rightMirrorContent.style.transform = `translate(${-shiftX * 2}px, ${-rotX * 1.2}px)`;
 
             // 4. TELEMETRIA
             const currentAng = Math.round(15 + (x / 22));

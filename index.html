@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Perfect Mirror Styled</title>
+    <title>Aion Drive-Eye v1.1.0 - Exact Mirror Cutout</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -46,26 +46,25 @@
 
         .side-mirror-container {
             position: absolute;
-            top: 140px;
-            width: 170px;
-            height: 120px;
+            top: 135px;
+            width: 180px;
+            height: 130px;
             perspective: 600px;
             z-index: 20;
         }
 
-        .side-mirror-left-pos { left: -10px; }
-        .side-mirror-right-pos { right: -10px; }
+        .side-mirror-left-pos { left: -15px; }
+        .side-mirror-right-pos { right: -15px; }
 
         .side-mirror-housing {
             width: 100%;
             height: 100%;
-            background: #020617;
-            border: 3px solid var(--hud-cyan);
-            border-radius: 28px;
-            box-shadow: 0 0 20px rgba(0,243,255,0.4);
+            background: transparent;
+            border: none;
+            box-shadow: none;
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
-            overflow: hidden;
+            overflow: visible;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -79,14 +78,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
+            background: transparent;
+            overflow: hidden;
         }
 
         .real-mirror-img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transform: scale(2.2);
+            object-fit: contain;
+            filter: drop-shadow(0 0 12px rgba(0,243,255,0.5));
         }
 
         /* SZÉLVEDŐ KILÁTÁS */
@@ -193,29 +193,27 @@
         }
 
         .mirror-housing-center {
-            width: 350px;
-            height: 110px;
-            background: #020617;
-            border: 3px solid var(--hud-cyan);
-            border-radius: 20px;
+            width: 340px;
+            height: 105px;
+            background: transparent;
+            border: none;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             perspective: 700px;
             z-index: 2;
-            box-shadow: 0 0 20px rgba(0,243,255,0.4);
         }
 
         .mirror-inner-glass {
             width: 100%;
             height: 100%;
-            background: #000;
+            background: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .target-reticle {
@@ -320,7 +318,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Perfect Mirror Styled</p>
+        <p>AION Matrix Lab - Exact Mirror Cutout</p>
     </div>
 
     <div class="cockpit-container">
@@ -362,7 +360,7 @@
                 <div class="mirror-housing-center">
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <div class="mirror-canvas" id="centerMirrorContent">
-                            <img src="K%C3%B6z%C3%A9ps%C5%91%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" style="transform: scale(1.4);" alt="Középső tükör">
+                            <img src="K%C3%B6z%C3%A9ps%C5%91%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" alt="Középső tükör">
                         </div>
                         <div class="target-reticle" id="reticle">
                             user verified

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Corrected Pro Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Fully Synchronized Pro Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -87,16 +87,17 @@
             width: 250%;
             height: 250%;
             background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+            transition: transform 0.04s ease-out;
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: ITT LEGYEN A TISZTA HÁTTÉR (AUTÓ NÉLKÜL) */
-        .left-fix { top: -120%; left: -120%; transform: scaleX(-1); }
+        /* BAL TÜKÖR: JEEP ELEJE */
+        .left-fix { top: -20%; left: -10%; transform: scaleX(-1); }
 
-        /* JOBB TÜKÖR: ITT LEGYEN A JEEP ELEJE */
-        .right-fix { top: -20%; right: -10%; left: auto; transform: scaleX(-1); }
+        /* JOBB TÜKÖR: TISZTA SIVATAGOS ÚT, AUTÓ NÉLKÜL */
+        .right-fix { top: -140%; right: -140%; left: auto; transform: scaleX(-1); }
 
-        /* KÖZÉPSŐ TÜKÖR */
+        /* KÖZÉPSŐ TÜKÖR: KÖVETŐ AUTÓ */
         .center-fix { top: -40%; left: -60%; transform: scaleX(-1); }
 
         .windshield-frame {
@@ -193,16 +194,16 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Corrected Pro Mirrors</p>
+        <p>AION Matrix Lab - Fully Synchronized Pro Mirrors</p>
     </div>
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR (MOST TISZTA HÁTTÉR) -->
+        <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
-            <div class="side-mirror-housing left-shape">
+            <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-master-bg left-fix"></div>
+                    <div class="mirror-master-bg left-fix" id="leftMirrorContent"></div>
                 </div>
             </div>
         </div>
@@ -218,7 +219,7 @@
                     <span class="led led-red">🛢️</span>
                     <span class="led led-red">🔋</span>
                     <span class="led led-red">🛑</span>
-                    <span class="speedo-display"><span id="speedVal">88</span> KM/H</span>
+                    <span class="speedo-display"><span id="speedVal">90</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
                     <div>L-ANG: <span id="langVal">18°</span></div>
@@ -254,11 +255,11 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (MOST ITT A JEEP) -->
+        <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
-            <div class="side-mirror-housing right-shape">
+            <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-master-bg right-fix"></div>
+                    <div class="mirror-master-bg right-fix" id="rightMirrorContent"></div>
                 </div>
             </div>
         </div>
@@ -272,6 +273,10 @@
         const pupilR = document.getElementById('pupilR');
         const mirrorGlass = document.getElementById('mirrorGlass');
         const centerMirrorContent = document.getElementById('centerMirrorContent');
+        const leftMirrorHousing = document.getElementById('leftMirrorHousing');
+        const rightMirrorHousing = document.getElementById('rightMirrorHousing');
+        const leftMirrorContent = document.getElementById('leftMirrorContent');
+        const rightMirrorContent = document.getElementById('rightMirrorContent');
         const reticle = document.getElementById('reticle');
         const langVal = document.getElementById('langVal');
         const rangVal = document.getElementById('rangVal');
@@ -279,9 +284,9 @@
         const targVal = document.getElementById('targVal');
         const speedVal = document.getElementById('speedVal');
 
-        let speed = 88;
+        let speed = 90;
         setInterval(() => {
-            speed = 87 + Math.floor(Math.random() * 5);
+            speed = 88 + Math.floor(Math.random() * 5);
             speedVal.innerText = speed;
         }, 1500);
 
@@ -303,8 +308,15 @@
             const rotX = -(y / (rect.height / 2)) * 24;
             const shiftX = (x / (rect.width / 2)) * 14;
 
+            // Tükörüvegek és belső tartalom dinamikus mozgatása
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
             centerMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX * 1.5}px, ${-rotX}px)`;
+
+            leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
+            rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
+
+            leftMirrorContent.style.transform = `scaleX(-1) translate(${shiftX}px, ${rotX * 0.5}px)`;
+            rightMirrorContent.style.transform = `scaleX(-1) translate(${-shiftX}px, ${rotX * 0.5}px)`;
 
             const currentAng = Math.round(18 + (x / 22));
             const targetAng = Math.round(24 + (y / 22));

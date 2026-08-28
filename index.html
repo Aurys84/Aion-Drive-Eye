@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Step 1 Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Corrected Pro Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -44,7 +44,6 @@
             perspective: 900px;
         }
 
-        /* 3D KÜLSŐ TÜKRÖK */
         .side-mirror-container {
             position: absolute;
             top: 140px;
@@ -83,36 +82,35 @@
             overflow: hidden;
         }
 
-        /* EGYETLEN KÉP HASZNÁLATA MINDEN TÜKÖRBEN ELTÉRŐ POZÍCIÓVAL (CROP) */
+        /* TISZTÁBBAN POZICIONÁLT KÉPKIVÁGÁSOK (CROP) */
         .shared-mirror-bg {
             position: absolute;
-            width: 300%;
-            height: 300%;
-            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+            width: 400%;
+            height: 400%;
+            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
             transition: transform 0.04s ease-out;
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: A FŐ KÉP BAL SZELETE */
+        /* BAL KÜLSŐ TÜKÖR: TISZTÁN A BAL SÁV KIVÁGÁSA */
         .left-crop {
-            top: -30%;
-            left: 0%;
+            top: -100%;
+            left: -20%;
         }
 
-        /* JOBB TÜKÖR: A FŐ KÉP JOBB SZELETE */
+        /* JOBB KÜLSŐ TÜKÖR: TISZTÁN A JOBB SÁV KIVÁGÁSA */
         .right-crop {
-            top: -30%;
-            right: 0%;
+            top: -100%;
+            right: -20%;
             left: auto;
         }
 
-        /* KÖZÉPSŐ TÜKÖR: A FŐ KÉP KÖZÉPSŐ SZELETE */
+        /* KÖZÉPSŐ TÜKÖR: HÁTRÉBB TOLT KÖZÉPSŐ ÚT ÉS KÖVETŐ AUTÓ */
         .center-crop {
-            top: -60%;
-            left: -50%;
+            top: -120%;
+            left: -150%;
         }
 
-        /* SZÉLVEDŐ (VÁLTOZATLANUL HAGYVA) */
         .windshield-frame {
             width: 82%;
             height: 100%;
@@ -176,7 +174,6 @@
             border: 1px solid rgba(34, 197, 94, 0.4);
         }
 
-        /* KÖZÉPSŐ TÜKÖR */
         .mirror-wrapper {
             display: flex;
             flex-direction: column;
@@ -317,7 +314,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Step 1: Synchronized Mirrors</p>
+        <p>AION Matrix Lab - Corrected Pro Mirrors</p>
     </div>
 
     <div class="cockpit-container">
@@ -331,7 +328,6 @@
             </div>
         </div>
 
-        <!-- SZÉLVEDŐ (EGYENLŐRE SEMleges SÖTÉT HÁTTÉRREL) -->
         <div class="windshield-frame" id="cabin">
             
             <div class="smart-windshield-hud">

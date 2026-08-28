@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Ultimate Pro Cockpit</title>
+    <title>Aion Drive-Eye v1.1.0 - Clean Geometry Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -76,40 +76,69 @@
         .side-mirror-glass {
             width: 100%;
             height: 100%;
-            background: #090d16;
+            background: #070d1a;
             position: relative;
             overflow: hidden;
         }
 
-        /* BAL KÜLSŐ TÜKÖR KÉP (BAL SÁV ÉS KASZNI) */
-        .left-mirror-view {
-            width: 220%;
-            height: 220%;
+        /* GEOMETRIKUS TÜKÖR GRAFIKA KÜLSŐ TÜKRÖKHÖZ */
+        .mirror-content-box {
+            width: 160%;
+            height: 160%;
             position: absolute;
-            top: -60%;
-            left: -20%;
-            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
+            top: -30%;
+            left: -30%;
             transition: transform 0.04s ease-out;
-            filter: brightness(0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* JOBB KÜLSŐ TÜKÖR KÉP (JOBB SÁV ÉS KASZNI) */
-        .right-mirror-view {
-            width: 220%;
-            height: 220%;
+        /* BAL TÜKÖR: BAL OLDALI SÁV ÉS KASZNI SZÉL */
+        .left-mirror-road {
+            width: 100%;
+            height: 100%;
+            background: #090e1b;
+            border-right: 12px solid #334155; /* Saját autó bal oldala */
+            position: relative;
+        }
+        .left-mirror-road::after {
+            content: '';
             position: absolute;
-            top: -60%;
-            right: -20%;
-            background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
-            transition: transform 0.04s ease-out;
-            filter: brightness(0.9);
+            top: 35%;
+            left: 30%;
+            width: 22px;
+            height: 12px;
+            background: #ef4444;
+            border-radius: 3px;
+            box-shadow: 0 0 8px #ef4444;
         }
 
-        /* ELOARE NÉZŐ SZÉLVEDŐ */
+        /* JOBB TÜKÖR: JOBB OLDALI SÁV ÉS KASZNI SZÉL */
+        .right-mirror-road {
+            width: 100%;
+            height: 100%;
+            background: #090e1b;
+            border-left: 12px solid #334155; /* Saját autó jobb oldala */
+            position: relative;
+        }
+        .right-mirror-road::after {
+            content: '';
+            position: absolute;
+            top: 40%;
+            right: 30%;
+            width: 22px;
+            height: 12px;
+            background: #22c55e;
+            border-radius: 3px;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        /* ELEGÁNS ÉS TISZTA SZÉLVEDŐ */
         .windshield-frame {
             width: 82%;
             height: 100%;
-            background: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+            background: linear-gradient(180deg, #090d16 0%, #111827 50%, #030712 100%);
             border: 3px solid rgba(0, 243, 255, 0.6);
             border-radius: 30px;
             position: relative;
@@ -121,6 +150,33 @@
             padding: 15px;
             box-sizing: border-box;
             box-shadow: 0 0 50px rgba(0,243,255,0.25);
+        }
+
+        .road-perspective {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 55%;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            overflow: hidden;
+            background: #0d1527;
+            border-top: 2px solid var(--hud-cyan);
+        }
+
+        .road-lane {
+            width: 280px;
+            height: 200%;
+            border-left: 8px dashed rgba(255,255,255,0.7);
+            border-right: 8px dashed rgba(255,255,255,0.7);
+            transform: perspective(300px) rotateX(65deg);
+            animation: moveRoad 0.35s linear infinite;
+        }
+
+        @keyframes moveRoad {
+            0% { transform: perspective(300px) rotateX(65deg) translateY(0); }
+            100% { transform: perspective(300px) rotateX(65deg) translateY(50px); }
         }
 
         .smart-windshield-hud {
@@ -218,15 +274,16 @@
             overflow: hidden;
         }
 
-        /* BELSŐ TÜKÖR HÁTRAFELÉ NÉZŐ ÚT */
-        .center-mirror-view {
-            width: 180%;
-            height: 180%;
-            position: absolute;
-            top: -40%;
-            left: -40%;
-            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
-            transition: transform 0.04s ease-out;
+        .center-mirror-road {
+            width: 100%;
+            height: 100%;
+            background: #090e1b;
+            border-left: 2px dashed rgba(255,255,255,0.3);
+            border-right: 2px dashed rgba(255,255,255,0.3);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .target-reticle {
@@ -331,7 +388,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Ultimate Pro Cockpit</p>
+        <p>AION Matrix Lab - Precision Cockpit Simulator</p>
     </div>
 
     <div class="cockpit-container">
@@ -340,13 +397,19 @@
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="left-mirror-view" id="leftMirrorContent"></div>
+                    <div class="mirror-content-box" id="leftMirrorContent">
+                        <div class="left-mirror-road"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="windshield-frame" id="cabin">
             
+            <div class="road-perspective">
+                <div class="road-lane"></div>
+            </div>
+
             <div class="smart-windshield-hud">
                 <div class="led-cluster">
                     <span class="led led-green">⬅️</span>
@@ -369,7 +432,11 @@
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="center-mirror-view" id="centerMirrorContent"></div>
+                        <div class="mirror-content-box" id="centerMirrorContent">
+                            <div class="center-mirror-road">
+                                <div style="width:24px; height:12px; background:#3b82f6; border-radius:3px; box-shadow:0 0 8px #3b82f6; position:absolute; top:35%;"></div>
+                            </div>
+                        </div>
                         <div class="target-reticle" id="reticle">
                             user verified
                         </div>
@@ -398,7 +465,9 @@
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="right-mirror-view" id="rightMirrorContent"></div>
+                    <div class="mirror-content-box" id="rightMirrorContent">
+                        <div class="right-mirror-road"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -453,9 +522,9 @@
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            // Aszimmetrikus, teljesen különálló optikai eltolás a külső tükrökben
-            leftMirrorContent.style.transform = `translate(${shiftX * 1.5}px, ${rotX * 0.7}px)`;
-            rightMirrorContent.style.transform = `translate(${-shiftX * 1.5}px, ${rotX * 0.7}px)`;
+            // Aszimmetrikus tükörkép eltolás
+            leftMirrorContent.style.transform = `translate(${shiftX * 1.4}px, ${rotX * 0.6}px)`;
+            rightMirrorContent.style.transform = `translate(${-shiftX * 1.4}px, ${rotX * 0.6}px)`;
 
             const currentAng = Math.round(15 + (x / 22));
             const targetAng = Math.round(18 + (y / 22));

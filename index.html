@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Pure CSS Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Synchronized Mirrors</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -61,33 +61,29 @@
             height: 100%;
             background: #000;
             border: 3px solid var(--hud-cyan);
-            border-radius: 25px;
+            border-radius: 28px;
             box-shadow: 0 0 20px rgba(0,243,255,0.4);
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
             overflow: hidden;
-            background-image: url('Ball tükör terv.png');
-            background-size: 350%;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .side-mirror-container.side-mirror-right-pos .side-mirror-housing {
-            background-image: url('Jobb tükör terv.png');
-            background-size: 350%;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .mirror-canvas {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transition: transform 0.04s ease-out;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
+        .mirror-canvas {
+            width: 120%;
+            height: 120%;
+            position: absolute;
+            transition: transform 0.04s ease-out;
+            background-size: 350%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .left-mirror-bg { background-image: url('Ball tükör terv.png'); }
+        .right-mirror-bg { background-image: url('Jobb tükör terv.png'); }
+        .center-mirror-bg { background-image: url('Középső tükör terv.png'); background-size: 280%; }
 
         /* SZÉLVEDŐ KILÁTÁS */
         .windshield-frame {
@@ -197,22 +193,18 @@
             height: 110px;
             background: #000;
             border: 3px solid var(--hud-cyan);
-            border-radius: 20px;
+            border-radius: 28px;
             position: relative;
             overflow: hidden;
             perspective: 700px;
             z-index: 2;
             box-shadow: 0 0 20px rgba(0,243,255,0.4);
-            background-image: url('Középső tükör terv.png');
-            background-size: 280%;
-            background-position: center;
-            background-repeat: no-repeat;
         }
 
         .mirror-inner-glass {
             width: 100%;
             height: 100%;
-            background: transparent;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -228,7 +220,7 @@
             width: 150px;
             height: 55px;
             border: 2px dashed var(--hud-cyan);
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -324,7 +316,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Pure CSS Mirrors</p>
+        <p>AION Matrix Lab - Synchronized Mirrors</p>
     </div>
 
     <div class="cockpit-container">
@@ -332,7 +324,7 @@
         <!-- BAL KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing" id="leftMirrorHousing">
-                <div class="mirror-canvas" id="leftMirrorContent"></div>
+                <div class="mirror-canvas left-mirror-bg" id="leftMirrorContent"></div>
             </div>
         </div>
 
@@ -363,7 +355,7 @@
             <div class="mirror-wrapper">
                 <div class="mirror-housing-center">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="mirror-canvas" id="centerMirrorContent"></div>
+                        <div class="mirror-canvas center-mirror-bg" id="centerMirrorContent"></div>
                         <div class="target-reticle" id="reticle">
                             user verified
                         </div>
@@ -391,7 +383,7 @@
         <!-- JOBB KÜLSŐ TÜKÖR -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing" id="rightMirrorHousing">
-                <div class="mirror-canvas" id="rightMirrorContent"></div>
+                <div class="mirror-canvas right-mirror-bg" id="rightMirrorContent"></div>
             </div>
         </div>
 

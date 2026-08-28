@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Real Cockpit View</title>
+    <title>Aion Drive-Eye v1.1.0 - Full Smart Windshield Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -12,11 +12,11 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-dark);
             color: #f8fafc;
             margin: 0;
-            padding: 10px;
+            padding: 5px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,23 +26,71 @@
             box-sizing: border-box;
         }
 
-        .header { text-align: center; margin-bottom: 8px; }
-        h1 { color: var(--hud-cyan); margin: 0; font-size: 1.7rem; text-shadow: 0 0 15px var(--hud-cyan); letter-spacing: 2px; }
-        p { color: #94a3b8; font-size: 0.85rem; margin-top: 2px; }
+        .header { text-align: center; margin-bottom: 5px; }
+        h1 { color: var(--hud-cyan); margin: 0; font-size: 1.5rem; text-shadow: 0 0 15px var(--hud-cyan); letter-spacing: 2px; }
+        p { color: #94a3b8; font-size: 0.8rem; margin: 2px 0; }
 
-        /* JÁRMŰ KABIN ÉS UTAS TÉR ORSZÁGÚTI HÁTTÉRREL */
-        .cabin-view {
-            width: 98%;
-            max-width: 850px;
-            height: 540px;
-            /* Stylized éjszakai országút háttér */
+        /* TELJES KABIN KÖRNYEZET A-OSZLOPOKKAL ÉS CSÖKKENTETT MARGÓVAL */
+        .cockpit-container {
+            position: relative;
+            width: 100%;
+            max-width: 950px;
+            height: 560px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* BAL ÉS JOBB KÜLSŐ TÜKROK (DOBOZON KÍVÜL) */
+        .side-mirror {
+            position: absolute;
+            top: 140px;
+            width: 90px;
+            height: 120px;
+            background: #020617;
+            border: 3px solid #1e293b;
+            box-shadow: 0 0 20px rgba(0,0,0,0.9), inset 0 0 10px #000;
+            perspective: 400px;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        .side-mirror-left {
+            left: 0;
+            border-radius: 20px 8px 8px 30px;
+            border-left: 4px solid var(--hud-cyan);
+        }
+
+        .side-mirror-right {
+            right: 0;
+            border-radius: 8px 20px 30px 8px;
+            border-right: 4px solid var(--hud-cyan);
+        }
+
+        .side-mirror-glass {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background-image: radial-gradient(circle at 50% 50%, rgba(0,243,255,0.2), transparent 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: monospace;
+            font-size: 0.65rem;
+            color: var(--hud-cyan);
+            transition: transform 0.04s ease-out;
+        }
+
+        /* SZÉLVEDŐ ÉS TÁJKÉP MÖGÖTTE */
+        .windshield-frame {
+            width: 82%;
+            height: 100%;
             background: 
-                perspective(200px) rotateX(25deg) linear-gradient(0deg, rgba(0,243,255,0.05) 2px, transparent 2px),
-                radial-gradient(ellipse at 50% 60%, rgba(15, 23, 42, 0.4) 0%, #020617 90%),
-                linear-gradient(180deg, #090d16 0%, #1e293b 60%, #020617 100%);
-            background-size: 40px 40px, 100% 100%, 100% 100%;
-            border: 2px solid rgba(0, 243, 255, 0.4);
-            border-radius: 24px;
+                radial-gradient(ellipse at 50% 20%, rgba(15, 23, 42, 0.2) 0%, #020617 95%),
+                linear-gradient(180deg, #020617 0%, #0f172a 50%, #050b14 100%);
+            border: 3px solid rgba(0, 243, 255, 0.4);
+            border-radius: 30px;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -51,15 +99,28 @@
             justify-content: space-between;
             padding: 15px;
             box-sizing: border-box;
-            box-shadow: 0 0 40px rgba(0,243,255,0.15);
+            box-shadow: 0 0 50px rgba(0,243,255,0.15);
         }
 
-        /* ORSZÁGÚTI SÁVOK A SZÉLVEDŐ MÖGÖTT */
+        /* TÁJKÉP ÉS UTAS TÉR ELMOZDULÁSA */
+        .landscape-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 150px 50px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 300px 20px, #fff, rgba(0,0,0,0));
+        }
+
         .road-perspective {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 50%;
+            height: 55%;
             display: flex;
             justify-content: center;
             pointer-events: none;
@@ -67,35 +128,65 @@
         }
 
         .road-lane {
-            width: 180px;
+            width: 220px;
             height: 100%;
-            border-left: 4px dashed rgba(255, 255, 255, 0.25);
-            border-right: 4px dashed rgba(255, 255, 255, 0.25);
-            transform: perspective(300px) rotateX(60deg);
+            border-left: 6px dashed rgba(255, 255, 255, 0.3);
+            border-right: 6px dashed rgba(255, 255, 255, 0.3);
+            transform: perspective(300px) rotateX(65deg);
         }
 
-        .windshield-hud {
+        /* OKOSSZÉLVEDŐ HUD MŰSZERFAL LÁMPÁK ÉS KIJELZŐK */
+        .smart-windshield-hud {
             position: absolute;
+            width: 90%;
             top: 20px;
-            right: 30px;
-            font-family: monospace;
-            color: var(--hud-green);
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-align: right;
-            text-shadow: 0 0 10px var(--hud-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             pointer-events: none;
-            line-height: 1.5;
             z-index: 10;
+            font-family: monospace;
         }
 
-        /* FENTI TÜKÖR KONZOL */
+        .dashboard-cluster {
+            display: flex;
+            gap: 12px;
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,243,255,0.2);
+        }
+
+        .hud-icon {
+            font-size: 1.1rem;
+            color: var(--hud-green);
+            text-shadow: 0 0 8px var(--hud-green);
+        }
+
+        .speedo {
+            color: var(--hud-cyan);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--hud-cyan);
+        }
+
+        .angle-hud {
+            color: var(--hud-green);
+            font-size: 1rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--hud-green);
+            text-align: right;
+            line-height: 1.4;
+        }
+
+        /* KÖZÉPSŐ BELSŐ TÜKÖR */
         .mirror-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            z-index: 5;
+            z-index: 15;
             margin-top: 5px;
         }
 
@@ -111,8 +202,8 @@
         }
 
         .mirror-housing {
-            width: 380px;
-            height: 140px;
+            width: 360px;
+            height: 130px;
             background: #020617;
             border: 5px solid #1e293b;
             border-radius: 26px;
@@ -142,8 +233,8 @@
         }
 
         .target-reticle {
-            width: 190px;
-            height: 75px;
+            width: 180px;
+            height: 70px;
             border: 2px dashed var(--hud-cyan);
             border-radius: 12px;
             display: flex;
@@ -151,7 +242,7 @@
             align-items: center;
             color: var(--hud-cyan);
             font-family: monospace;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: bold;
             letter-spacing: 1.5px;
             box-shadow: 0 0 15px rgba(0,243,255,0.4);
@@ -159,7 +250,7 @@
             transform: translateZ(30px);
         }
 
-        /* ALULRA HELYEZETT BIOMETRIKUS FEJ / TEKINTET */
+        /* 3D BIOMETRIKUS FEJ / TEKINTET */
         .head-tracker-stage {
             width: 120px;
             height: 110px;
@@ -167,13 +258,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 5;
-            margin-bottom: 10px;
+            z-index: 15;
+            margin-bottom: 5px;
         }
 
         .head-3d {
-            width: 80px;
-            height: 95px;
+            width: 75px;
+            height: 90px;
             background: radial-gradient(circle at 30% 30%, #3b82f6, #0f172a);
             border: 2px solid var(--hud-cyan);
             border-radius: 40px 40px 50px 50px;
@@ -187,53 +278,53 @@
         }
 
         .eye-sensor {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             background: #ffffff;
             border: 3px solid var(--hud-cyan);
             border-radius: 50%;
             box-shadow: 0 0 12px var(--hud-cyan);
             position: absolute;
-            top: 32px;
+            top: 30px;
             transition: transform 0.04s ease-out;
         }
 
-        .eye-left { left: 18px; }
-        .eye-right { right: 18px; }
+        .eye-left { left: 16px; }
+        .eye-right { right: 16px; }
 
         .pupil-3d {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             background: #000;
             border-radius: 50%;
             position: absolute;
-            top: 6px;
-            left: 6px;
+            top: 5px;
+            left: 5px;
         }
 
         .mirror-adjust-hud {
             position: absolute;
-            bottom: 20px;
-            left: 25px;
+            bottom: 15px;
+            left: 20px;
             background: rgba(15, 23, 42, 0.9);
             border: 1px solid var(--hud-cyan);
             border-radius: 12px;
-            padding: 8px 16px;
+            padding: 8px 14px;
             font-family: monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #f8fafc;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             box-shadow: 0 0 20px rgba(0,243,255,0.25);
             z-index: 10;
         }
 
         .status-icon {
-            width: 26px;
-            height: 16px;
+            width: 24px;
+            height: 14px;
             background: var(--hud-cyan);
-            border-radius: 4px;
+            border-radius: 3px;
             box-shadow: 0 0 10px var(--hud-cyan);
         }
     </style>
@@ -242,45 +333,76 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Real Cockpit View & Optical Tracking</p>
+        <p>AION Matrix Lab - Full Smart Windshield & 3-Mirror Cockpit</p>
     </div>
 
-    <div class="cabin-view" id="cabin">
-        
-        <div class="road-perspective">
-            <div class="road-lane"></div>
+    <div class="cockpit-container">
+
+        <!-- BAL OLDALI TÜKÖR (DOBOZON KÍVÜL) -->
+        <div class="side-mirror side-mirror-left">
+            <div class="side-mirror-glass" id="leftMirrorGlass">
+                <span>LEFT</span>
+                <span id="lMirrorAng">15°</span>
+            </div>
         </div>
 
-        <div class="windshield-hud">
-            <div>L-ANG: <span id="langVal">15°</span></div>
-            <div>R-ANG: <span id="rangVal">18°</span></div>
-        </div>
+        <!-- SZÉLVEDŐ KABIN -->
+        <div class="windshield-frame" id="cabin">
+            
+            <div class="landscape-bg"></div>
 
-        <!-- 1. FENTI TÜKÖR -->
-        <div class="mirror-wrapper">
-            <div class="mirror-stem"></div>
-            <div class="mirror-housing">
-                <div class="mirror-inner-glass" id="mirrorGlass">
-                    <div class="target-reticle" id="reticle">
-                        user verified
+            <div class="road-perspective">
+                <div class="road-lane"></div>
+            </div>
+
+            <!-- OKOSSZÉLVEDŐ HUD MŰSZERFAL -->
+            <div class="smart-windshield-hud">
+                <div class="dashboard-cluster">
+                    <span class="hud-icon">🟢</span>
+                    <span class="hud-icon">💡</span>
+                    <span class="speedo"><span id="speedVal">90</span> KM/H</span>
+                </div>
+                <div class="angle-hud">
+                    <div>L-ANG: <span id="langVal">15°</span></div>
+                    <div>R-ANG: <span id="rangVal">18°</span></div>
+                </div>
+            </div>
+
+            <!-- KÖZÉPSŐ TÜKÖR -->
+            <div class="mirror-wrapper">
+                <div class="mirror-stem"></div>
+                <div class="mirror-housing">
+                    <div class="mirror-inner-glass" id="mirrorGlass">
+                        <div class="target-reticle" id="reticle">
+                            user verified
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 2. ALULI TEKINTET / FEJ TRACKER -->
-        <div class="head-tracker-stage">
-            <div class="head-3d" id="head3d">
-                <div class="eye-sensor eye-left"><div class="pupil-3d" id="pupilL"></div></div>
-                <div class="eye-sensor eye-right"><div class="pupil-3d" id="pupilR"></div></div>
+            <!-- BIOMETRIKUS FEJ / TEKINTET TRACKER -->
+            <div class="head-tracker-stage">
+                <div class="head-3d" id="head3d">
+                    <div class="eye-sensor eye-left"><div class="pupil-3d" id="pupilL"></div></div>
+                    <div class="eye-sensor eye-right"><div class="pupil-3d" id="pupilR"></div></div>
+                </div>
             </div>
+
+            <div class="mirror-adjust-hud">
+                <div class="status-icon"></div>
+                <div>
+                    <div>Current: <span id="currVal">15°</span></div>
+                    <div>Target: <span id="targVal">18°</span></div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="mirror-adjust-hud">
-            <div class="status-icon"></div>
-            <div>
-                <div>Current: <span id="currVal">15°</span></div>
-                <div>Target: <span id="targVal">18°</span></div>
+        <!-- JOBB OLDALI TÜKÖR (DOBOZON KÍVÜL) -->
+        <div class="side-mirror side-mirror-right">
+            <div class="side-mirror-glass" id="rightMirrorGlass">
+                <span>RIGHT</span>
+                <span id="rMirrorAng">18°</span>
             </div>
         </div>
 
@@ -292,17 +414,23 @@
         const pupilL = document.getElementById('pupilL');
         const pupilR = document.getElementById('pupilR');
         const mirrorGlass = document.getElementById('mirrorGlass');
+        const leftMirrorGlass = document.getElementById('leftMirrorGlass');
+        const rightMirrorGlass = document.getElementById('rightMirrorGlass');
         const reticle = document.getElementById('reticle');
         const langVal = document.getElementById('langVal');
         const rangVal = document.getElementById('rangVal');
+        const lMirrorAng = document.getElementById('lMirrorAng');
+        const rMirrorAng = document.getElementById('rMirrorAng');
         const currVal = document.getElementById('currVal');
         const targVal = document.getElementById('targVal');
+        const speedVal = document.getElementById('speedVal');
 
         function processMotion(clientX, clientY) {
             const rect = cabin.getBoundingClientRect();
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
+            // 1. 3D FEJ ÉS TEKINTET
             const headRotY = (x / (rect.width / 2)) * 35;
             const headRotX = -(y / (rect.height / 2)) * 25;
             head3d.style.transform = `rotateY(${headRotY}deg) rotateX(${headRotX}deg)`;
@@ -312,19 +440,28 @@
             pupilL.style.transform = `translate(${px}px, ${py}px)`;
             pupilR.style.transform = `translate(${px}px, ${py}px)`;
 
+            // 2. KÖZÉPSŐ TÜKÖR 3D
             const rotY = (x / (rect.width / 2)) * 30;
             const rotX = -(y / (rect.height / 2)) * 24;
             const shiftX = (x / (rect.width / 2)) * 14;
-
             mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
 
+            // 3. BAL ÉS JOBB KÜLSŐ TÜKRÖK SZINKRONIZÁLT 3D ELMOZDULÁSA
+            leftMirrorGlass.style.transform = `rotateY(${rotY * 0.8}deg) rotateX(${rotX * 0.8}deg)`;
+            rightMirrorGlass.style.transform = `rotateY(${rotY * 0.8}deg) rotateX(${rotX * 0.8}deg)`;
+
+            // 4. TELEMETRIA ÉS MŰSZERFAL ADATOK
             const currentAng = Math.round(15 + (x / 22));
             const targetAng = Math.round(18 + (y / 22));
+            const dynamicSpeed = Math.round(90 + (y / 15));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;
+            lMirrorAng.innerText = `${currentAng}°`;
+            rMirrorAng.innerText = `${targetAng}°`;
             currVal.innerText = `${currentAng}°`;
             targVal.innerText = `${targetAng}°`;
+            speedVal.innerText = `${Math.max(60, Math.min(130, dynamicSpeed))}`;
 
             if (Math.abs(x) < 60 && Math.abs(y) < 60) {
                 reticle.innerText = "user verified";

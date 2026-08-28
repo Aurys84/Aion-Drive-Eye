@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Perfect Restore</title>
+    <title>Aion Drive-Eye v1.1.0 - HUD Projection</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -89,7 +89,7 @@
             transition: transform 0.04s ease-out;
         }
 
-        /* SZÉLVEDŐ KILÁTÁS */
+        /* SZÉLVEDŐ KILÁTÁS ÉS PROJEKTOR HUD */
         .windshield-frame {
             width: 82%;
             height: 100%;
@@ -132,6 +132,63 @@
         @keyframes moveRoad {
             0% { transform: perspective(300px) rotateX(65deg) translateY(0); }
             100% { transform: perspective(300px) rotateX(65deg) translateY(50px); }
+        }
+
+        /* KÉP UTÁNZÓ SZÉLVÉDŐ HUD (PROJEKTOR EFFEKT) */
+        .projected-hud-overlay {
+            position: absolute;
+            bottom: 35px;
+            width: 55%;
+            height: 38%;
+            background: rgba(0, 243, 255, 0.04);
+            border: 2px dashed rgba(0, 243, 255, 0.3);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 12px;
+            box-shadow: 0 0 30px rgba(0,243,255,0.15);
+            pointer-events: none;
+            backdrop-filter: blur(1px);
+        }
+
+        .hud-main-data {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            text-shadow: 0 0 12px var(--hud-cyan);
+            font-family: monospace;
+        }
+
+        .hud-speed {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        .hud-unit-time {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.85rem;
+            color: var(--hud-cyan);
+            font-weight: bold;
+        }
+
+        .hud-alignment-bar {
+            width: 140px;
+            height: 6px;
+            background: var(--hud-green);
+            border-radius: 4px;
+            margin-top: 10px;
+            box-shadow: 0 0 12px var(--hud-green);
+            animation: pulseBar 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseBar {
+            0%, 100% { opacity: 0.7; transform: scaleX(0.95); }
+            50% { opacity: 1; transform: scaleX(1.05); }
         }
 
         .smart-windshield-hud {
@@ -324,7 +381,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Perfect Restore</p>
+        <p>AION Matrix Lab - Projected HUD</p>
     </div>
 
     <div class="cockpit-container">
@@ -342,6 +399,18 @@
                 <div class="road-lane"></div>
             </div>
 
+            <!-- SZÉLVÉDŐRE KIVETÍTETT HUD (A KÉP ALAPJÁN) -->
+            <div class="projected-hud-overlay">
+                <div class="hud-main-data">
+                    <span class="hud-speed" id="hudSpeed">28</span>
+                    <div class="hud-unit-time">
+                        <span>KM/H</span>
+                        <span id="hudClock">16:02</span>
+                    </div>
+                </div>
+                <div class="hud-alignment-bar"></div>
+            </div>
+
             <div class="smart-windshield-hud">
                 <div class="led-cluster">
                     <span class="led led-green">⬅️</span>
@@ -351,7 +420,7 @@
                     <span class="led led-red">🛢️</span>
                     <span class="led led-red">🔋</span>
                     <span class="led led-red">🛑</span>
-                    <span class="speedo-display"><span id="speedVal">90</span> KM/H</span>
+                    <span class="speedo-display"><span id="speedVal">28</span> KM/H</span>
                 </div>
                 <div class="angle-hud">
                     <div>L-ANG: <span id="langVal">15°</span></div>
@@ -404,22 +473,27 @@
         const pupilR = document.getElementById('pupilR');
         const mirrorGlass = document.getElementById('mirrorGlass');
         const centerMirrorHousing = document.getElementById('centerMirrorHousing');
-        const centerMirrorContent = document.getElementById('centerMirrorContent');
         const leftMirrorHousing = document.getElementById('leftMirrorHousing');
         const rightMirrorHousing = document.getElementById('rightMirrorHousing');
-        const leftMirrorContent = document.getElementById('leftMirrorContent');
-        const rightMirrorContent = document.getElementById('rightMirrorContent');
         const reticle = document.getElementById('reticle');
         const langVal = document.getElementById('langVal');
         const rangVal = document.getElementById('rangVal');
         const currVal = document.getElementById('currVal');
         const targVal = document.getElementById('targVal');
         const speedVal = document.getElementById('speedVal');
+        const hudSpeed = document.getElementById('hudSpeed');
+        const hudClock = document.getElementById('hudClock');
 
-        let speed = 90;
+        // Élő óra és sebesség frissítés a HUD-on
         setInterval(() => {
-            speed = 88 + Math.floor(Math.random() * 5);
-            speedVal.innerText = speed;
+            const currentSpeed = 27 + Math.floor(Math.random() * 3);
+            speedVal.innerText = currentSpeed;
+            hudSpeed.innerText = currentSpeed;
+
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            hudClock.innerText = `${hours}:${minutes}`;
         }, 1500);
 
         function processMotion(clientX, clientY) {

@@ -91,13 +91,11 @@
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: ITT A KOCSI ELEJE (VÁLTOZATLAN) */
-        .left-fix { top: -20%; left: -10%; transform: scaleX(-1); }
+        /* ITT JÖTT A CSERE: A BAL KAPJA A TISZTA HÁTTERET, A JOBB A KOCSI ELEJÉT */
+        .left-fix { top: -120%; left: -120%; transform: scaleX(-1); }
+        .right-fix { top: -20%; right: -10%; left: auto; transform: scaleX(-1); }
 
-        /* JOBB TÜKÖR: CSAK TÁJ, AUTÓ NÉLKÜL (ITM MÓDOSÍTVA TISZTA HÁTTÉRRE) */
-        .right-fix { top: -120%; right: -120%; left: auto; transform: scaleX(-1); }
-
-        /* KÖZÉPSŐ TÜKÖR: KÖVETŐ AUTÓ (VÁLTOZATLAN) */
+        /* KÖZÉPSŐ TÜKÖR (VÁLTOZATLAN) */
         .center-fix { top: -40%; left: -60%; transform: scaleX(-1); }
 
         .windshield-frame {
@@ -199,7 +197,7 @@
 
     <div class="cockpit-container">
 
-        <!-- BAL KÜLSŐ TÜKÖR -->
+        <!-- BAL KÜLSŐ TÜKÖR (MOST TISZTA HÁTTÉR) -->
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
@@ -255,7 +253,7 @@
 
         </div>
 
-        <!-- JOBB KÜLSŐ TÜKÖR (AUTÓ NÉLKÜL) -->
+        <!-- JOBB KÜLSŐ TÜKÖR (MOST ITT A KOCSI) -->
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">

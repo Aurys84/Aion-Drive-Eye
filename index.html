@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Max Zoom Mirrors</title>
+    <title>Aion Drive-Eye v1.1.0 - Perfect Final Zoom</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -86,8 +86,8 @@
         .real-mirror-img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            transform: scale(3.5); /* BRUTÁLIS KÖZÉPPONTI NAGYÍTÁS A TÜKÖRRE */
+            object-fit: cover;
+            transform: scale(4.8); /* KÜLSŐ TÜKRÖK MAX NAGYÍTÁSA */
         }
 
         /* SZÉLVEDŐ KILÁTÁS */
@@ -321,7 +321,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Max Zoom Integration</p>
+        <p>AION Matrix Lab - Perfect Final Zoom</p>
     </div>
 
     <div class="cockpit-container">
@@ -363,7 +363,7 @@
                 <div class="mirror-housing-center">
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <div class="mirror-canvas" id="centerMirrorContent">
-                            <img src="K%C3%B6z%C3%A9ps%C5%91%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" style="transform: scale(3.5);" alt="Középső tükör">
+                            <img src="K%C3%B6z%C3%A9ps%C5%91%20t%C3%BCk%C3%B6r%20terv.png" class="real-mirror-img" style="transform: scale(2.4); object-fit: cover;" alt="Középső tükör">
                         </div>
                         <div class="target-reticle" id="reticle">
                             user verified

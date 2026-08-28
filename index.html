@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Clean Geometry Cockpit</title>
+    <title>Aion Drive-Eye v1.1.0 - Cinematic Pro Cockpit</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -11,7 +11,7 @@
             --hud-amber: #f59e0b;
             --hud-red: #ef4444;
             --hud-blue: #3b82f6;
-            --bg-dark: #030712;
+            --bg-dark: #020617;
         }
 
         body {
@@ -41,27 +41,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 800px;
+            perspective: 900px;
         }
 
+        /* 3D KÜLSŐ TÜKRÖK */
         .side-mirror-container {
             position: absolute;
             top: 140px;
-            width: 115px;
-            height: 145px;
+            width: 120px;
+            height: 150px;
             perspective: 600px;
             z-index: 20;
         }
 
-        .side-mirror-left-pos { left: -10px; }
-        .side-mirror-right-pos { right: -10px; }
+        .side-mirror-left-pos { left: -15px; }
+        .side-mirror-right-pos { right: -15px; }
 
         .side-mirror-housing {
             width: 100%;
             height: 100%;
-            background: #020617;
-            border: 4px solid #1e293b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+            background: linear-gradient(135deg, #0f172a, #020617);
+            border: 4px solid #334155;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.95), inset 0 0 15px rgba(0,243,255,0.15);
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
             overflow: hidden;
@@ -70,75 +71,46 @@
             align-items: center;
         }
 
-        .left-shape { border-radius: 24px 10px 10px 35px; border-left: 4px solid var(--hud-cyan); }
-        .right-shape { border-radius: 10px 24px 35px 10px; border-right: 4px solid var(--hud-cyan); }
+        .left-shape { border-radius: 26px 12px 12px 38px; border-left: 4px solid var(--hud-cyan); }
+        .right-shape { border-radius: 12px 26px 38px 12px; border-right: 4px solid var(--hud-cyan); }
 
         .side-mirror-glass {
-            width: 100%;
-            height: 100%;
-            background: #070d1a;
+            width: 92%;
+            height: 92%;
+            background: #050b14;
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
         }
 
-        /* GEOMETRIKUS TÜKÖR GRAFIKA KÜLSŐ TÜKRÖKHÖZ */
-        .mirror-content-box {
-            width: 160%;
-            height: 160%;
+        /* KÜLSŐ TÜKRÖK ÉLETHŰ FOTÓ-ALAPÚ TEXTÚRÁJA */
+        .mirror-scenery-left {
+            width: 220%;
+            height: 220%;
             position: absolute;
-            top: -30%;
-            left: -30%;
+            top: -50%;
+            left: -20%;
+            background: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
             transition: transform 0.04s ease-out;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            filter: brightness(0.85) contrast(1.1);
         }
 
-        /* BAL TÜKÖR: BAL OLDALI SÁV ÉS KASZNI SZÉL */
-        .left-mirror-road {
-            width: 100%;
-            height: 100%;
-            background: #090e1b;
-            border-right: 12px solid #334155; /* Saját autó bal oldala */
-            position: relative;
-        }
-        .left-mirror-road::after {
-            content: '';
+        .mirror-scenery-right {
+            width: 220%;
+            height: 220%;
             position: absolute;
-            top: 35%;
-            left: 30%;
-            width: 22px;
-            height: 12px;
-            background: #ef4444;
-            border-radius: 3px;
-            box-shadow: 0 0 8px #ef4444;
+            top: -50%;
+            right: -20%;
+            background: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
+            transition: transform 0.04s ease-out;
+            filter: brightness(0.85) contrast(1.1);
         }
 
-        /* JOBB TÜKÖR: JOBB OLDALI SÁV ÉS KASZNI SZÉL */
-        .right-mirror-road {
-            width: 100%;
-            height: 100%;
-            background: #090e1b;
-            border-left: 12px solid #334155; /* Saját autó jobb oldala */
-            position: relative;
-        }
-        .right-mirror-road::after {
-            content: '';
-            position: absolute;
-            top: 40%;
-            right: 30%;
-            width: 22px;
-            height: 12px;
-            background: #22c55e;
-            border-radius: 3px;
-            box-shadow: 0 0 8px #22c55e;
-        }
-
-        /* ELEGÁNS ÉS TISZTA SZÉLVEDŐ */
+        /* PREMIER FOTÓS SZÉLVEDŐ KILÁTÁS */
         .windshield-frame {
             width: 82%;
             height: 100%;
-            background: linear-gradient(180deg, #090d16 0%, #111827 50%, #030712 100%);
+            background: url('https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
             border: 3px solid rgba(0, 243, 255, 0.6);
             border-radius: 30px;
             position: relative;
@@ -149,34 +121,7 @@
             justify-content: space-between;
             padding: 15px;
             box-sizing: border-box;
-            box-shadow: 0 0 50px rgba(0,243,255,0.25);
-        }
-
-        .road-perspective {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 55%;
-            display: flex;
-            justify-content: center;
-            pointer-events: none;
-            overflow: hidden;
-            background: #0d1527;
-            border-top: 2px solid var(--hud-cyan);
-        }
-
-        .road-lane {
-            width: 280px;
-            height: 200%;
-            border-left: 8px dashed rgba(255,255,255,0.7);
-            border-right: 8px dashed rgba(255,255,255,0.7);
-            transform: perspective(300px) rotateX(65deg);
-            animation: moveRoad 0.35s linear infinite;
-        }
-
-        @keyframes moveRoad {
-            0% { transform: perspective(300px) rotateX(65deg) translateY(0); }
-            100% { transform: perspective(300px) rotateX(65deg) translateY(50px); }
+            box-shadow: 0 0 60px rgba(0,243,255,0.3);
         }
 
         .smart-windshield-hud {
@@ -228,6 +173,7 @@
             text-shadow: 0 0 8px var(--hud-green);
         }
 
+        /* KÖZÉPSŐ TÜKÖR */
         .mirror-wrapper {
             display: flex;
             flex-direction: column;
@@ -240,30 +186,30 @@
         .mirror-stem {
             width: 16px;
             height: 25px;
-            background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
-            border: 1px solid #475569;
+            background: linear-gradient(90deg, #0f172a, #475569, #0f172a);
+            border: 1px solid #64748b;
             border-radius: 4px;
             margin-bottom: -5px;
             z-index: 1;
         }
 
         .mirror-housing {
-            width: 360px;
-            height: 130px;
+            width: 370px;
+            height: 135px;
             background: #020617;
-            border: 5px solid #1e293b;
-            border-radius: 26px;
+            border: 5px solid #334155;
+            border-radius: 28px;
             position: relative;
             overflow: hidden;
             perspective: 700px;
             z-index: 2;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
         }
 
         .mirror-inner-glass {
             width: 100%;
             height: 100%;
-            background: #090d16;
+            background: #050b14;
             border-radius: 20px;
             display: flex;
             justify-content: center;
@@ -274,16 +220,15 @@
             overflow: hidden;
         }
 
-        .center-mirror-road {
-            width: 100%;
-            height: 100%;
-            background: #090e1b;
-            border-left: 2px dashed rgba(255,255,255,0.3);
-            border-right: 2px dashed rgba(255,255,255,0.3);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .center-scenery {
+            width: 180%;
+            height: 180%;
+            position: absolute;
+            top: -40%;
+            left: -40%;
+            background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=600&auto=format&fit=crop') center/cover no-repeat;
+            transition: transform 0.04s ease-out;
+            filter: brightness(0.9) contrast(1.1);
         }
 
         .target-reticle {
@@ -303,9 +248,10 @@
             letter-spacing: 1.5px;
             text-transform: lowercase;
             background: rgba(2, 6, 23, 0.75);
-            box-shadow: 0 0 15px rgba(0,243,255,0.4);
+            box-shadow: 0 0 20px rgba(0,243,255,0.4);
         }
 
+        /* FEJ & SZEM TRACKER MODUL */
         .head-tracker-stage {
             width: 120px;
             height: 110px;
@@ -329,7 +275,7 @@
             position: relative;
             transition: transform 0.04s ease-out;
             transform-style: preserve-3d;
-            box-shadow: 0 0 20px rgba(0,243,255,0.3);
+            box-shadow: 0 0 25px rgba(0,243,255,0.35);
         }
 
         .eye-sensor {
@@ -341,7 +287,7 @@
             position: absolute;
             top: 30px;
             transition: transform 0.04s ease-out;
-            box-shadow: 0 0 10px var(--hud-cyan);
+            box-shadow: 0 0 12px var(--hud-cyan);
         }
 
         .eye-left { left: 16px; }
@@ -361,7 +307,7 @@
             position: absolute;
             bottom: 15px;
             left: 20px;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.92);
             border: 1px solid var(--hud-cyan);
             border-radius: 12px;
             padding: 8px 14px;
@@ -372,7 +318,7 @@
             align-items: center;
             gap: 10px;
             z-index: 10;
-            box-shadow: 0 0 15px rgba(0,243,255,0.25);
+            box-shadow: 0 0 20px rgba(0,243,255,0.3);
         }
 
         .status-icon {
@@ -380,7 +326,7 @@
             height: 14px;
             background: var(--hud-cyan);
             border-radius: 3px;
-            box-shadow: 0 0 8px var(--hud-cyan);
+            box-shadow: 0 0 10px var(--hud-cyan);
         }
     </style>
 </head>
@@ -388,7 +334,7 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>AION Matrix Lab - Precision Cockpit Simulator</p>
+        <p>AION Matrix Lab - Cinematic Pro Cockpit</p>
     </div>
 
     <div class="cockpit-container">
@@ -397,19 +343,13 @@
         <div class="side-mirror-container side-mirror-left-pos">
             <div class="side-mirror-housing left-shape" id="leftMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-content-box" id="leftMirrorContent">
-                        <div class="left-mirror-road"></div>
-                    </div>
+                    <div class="mirror-scenery-left" id="leftMirrorContent"></div>
                 </div>
             </div>
         </div>
 
         <div class="windshield-frame" id="cabin">
             
-            <div class="road-perspective">
-                <div class="road-lane"></div>
-            </div>
-
             <div class="smart-windshield-hud">
                 <div class="led-cluster">
                     <span class="led led-green">⬅️</span>
@@ -432,11 +372,7 @@
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
-                        <div class="mirror-content-box" id="centerMirrorContent">
-                            <div class="center-mirror-road">
-                                <div style="width:24px; height:12px; background:#3b82f6; border-radius:3px; box-shadow:0 0 8px #3b82f6; position:absolute; top:35%;"></div>
-                            </div>
-                        </div>
+                        <div class="center-scenery" id="centerMirrorContent"></div>
                         <div class="target-reticle" id="reticle">
                             user verified
                         </div>
@@ -465,9 +401,7 @@
         <div class="side-mirror-container side-mirror-right-pos">
             <div class="side-mirror-housing right-shape" id="rightMirrorHousing">
                 <div class="side-mirror-glass">
-                    <div class="mirror-content-box" id="rightMirrorContent">
-                        <div class="right-mirror-road"></div>
-                    </div>
+                    <div class="mirror-scenery-right" id="rightMirrorContent"></div>
                 </div>
             </div>
         </div>
@@ -522,9 +456,9 @@
             leftMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
             rightMirrorHousing.style.transform = `rotateY(${rotY * 0.7}deg) rotateX(${rotX * 0.5}deg)`;
 
-            // Aszimmetrikus tükörkép eltolás
-            leftMirrorContent.style.transform = `translate(${shiftX * 1.4}px, ${rotX * 0.6}px)`;
-            rightMirrorContent.style.transform = `translate(${-shiftX * 1.4}px, ${rotX * 0.6}px)`;
+            // Aszimmetrikus optikai eltolás a külső tükrökben a valósághű térhatásért
+            leftMirrorContent.style.transform = `translate(${shiftX * 1.6}px, ${rotX * 0.7}px)`;
+            rightMirrorContent.style.transform = `translate(${-shiftX * 1.6}px, ${rotX * 0.7}px)`;
 
             const currentAng = Math.round(15 + (x / 22));
             const targetAng = Math.round(18 + (y / 22));

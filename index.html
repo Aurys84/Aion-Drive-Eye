@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Real-World Mirror Simulator</title>
+    <title>Aion Drive-Eye v1.1.0 - 3D Real-World Mirror</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -28,11 +28,10 @@
         h1 { color: var(--hud-cyan); margin: 0; font-size: 1.5rem; text-shadow: 0 0 10px var(--hud-cyan); }
         p { color: #94a3b8; font-size: 0.8rem; margin-top: 4px; }
 
-        /* JÁRMŰ KABIN SZIMULÁCIÓ */
         .cabin-view {
             width: 100%;
             max-width: 680px;
-            height: 420px;
+            height: 440px;
             background: radial-gradient(circle at 50% 100%, #1e293b 0%, #020617 80%);
             border: 2px solid #334155;
             border-radius: 20px;
@@ -47,7 +46,6 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        /* SZÉLVEDŐ HUD KIJELZŐ (ZÖLD ANGLES) */
         .windshield-hud {
             position: absolute;
             top: 25px;
@@ -61,41 +59,41 @@
             line-height: 1.4;
         }
 
-        /* FIX KÜLSŐ TÜKÖRHÁZ */
+        /* FIX KÜLSŐ TÜKÖRHÁZ PERSPEKTÍVA TERREL */
         .mirror-housing {
-            width: 280px;
-            height: 110px;
+            width: 300px;
+            height: 120px;
             background: #020617;
             border: 4px solid #1e293b;
-            border-radius: 18px;
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 15px #000, 0 10px 25px rgba(0,0,0,0.7);
-            margin-top: 20px;
+            box-shadow: inset 0 0 20px #000, 0 10px 30px rgba(0,0,0,0.8);
+            margin-top: 15px;
+            perspective: 600px; /* 3D mélység megadása */
         }
 
-        /* MOZGÓ BELSŐ TÜKÖRKÉP */
+        /* 3D-BEN DŐLŐ BELSŐ TÜKÖRÜVEG */
         .mirror-inner-glass {
-            width: 130%;
-            height: 130%;
-            position: absolute;
-            top: -15%;
-            left: -15%;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.15), transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(0,243,255,0.2), transparent 60%),
                 linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
             background-size: 100% 100%, 20px 20px;
+            border-radius: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.03s ease-out;
+            transition: transform 0.04s ease-out;
+            transform-style: preserve-3d;
+            box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.2);
         }
 
-        /* USER VERIFIED TÁRGYI KERET A TÜKÖRBEN */
         .target-reticle {
-            width: 140px;
-            height: 60px;
+            width: 150px;
+            height: 65px;
             border: 2px dashed var(--hud-cyan);
             border-radius: 8px;
             display: flex;
@@ -103,13 +101,13 @@
             align-items: center;
             color: var(--hud-cyan);
             font-family: monospace;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
             box-shadow: 0 0 12px rgba(0,243,255,0.3);
             text-transform: lowercase;
+            transform: translateZ(20px); /* Kiemelkedik a térből */
         }
 
-        /* ALSÓ BEÁLLÍTÁSI STATUS HUD */
         .mirror-adjust-hud {
             position: absolute;
             bottom: 20px;
@@ -140,18 +138,16 @@
 
     <div class="header">
         <h1>Aion Drive-Eye v1.1.0</h1>
-        <p>Valós idejű Optikai Szögtükrözés & HUD Szimuláció</p>
+        <p>Valós idejű 3D Optikai Szögtükrözés & HUD Szimuláció</p>
     </div>
 
     <div class="cabin-view" id="cabin">
         
-        <!-- SZÉLVEDŐ HUD DISPLAY (KÉPEK ALAPJÁN) -->
         <div class="windshield-hud">
             <div>L-ANG: <span id="langVal">15°</span></div>
             <div>R-ANG: <span id="rangVal">18°</span></div>
         </div>
 
-        <!-- FIX TÜKÖRHÁZ A MOZGÓ BELSŐ ÜVEGGEL -->
         <div class="mirror-housing">
             <div class="mirror-inner-glass" id="mirrorGlass">
                 <div class="target-reticle" id="reticle">
@@ -160,7 +156,6 @@
             </div>
         </div>
 
-        <!-- LOWER ADJUSTMENT PANEL (KÉPEK ALAPJÁN) -->
         <div class="mirror-adjust-hud">
             <div class="status-icon"></div>
             <div>
@@ -185,21 +180,22 @@
             const x = clientX - rect.left - (rect.width / 2);
             const y = clientY - rect.top - (rect.height / 2);
 
-            // Kizárólag a belső tükörkép mozdul el a kereten belül!
-            const shiftX = (x / (rect.width / 2)) * 25;
-            const shiftY = (y / (rect.height / 2)) * 18;
-            mirrorGlass.style.transform = `translate(${shiftX}px, ${shiftY}px)`;
+            // 3D Forgatás (Yaw és Pitch) kombinálva az eltolással
+            const rotY = (x / (rect.width / 2)) * 25; // Jobbra-balra dőlés
+            const rotX = -(y / (rect.height / 2)) * 20; // Fel-le dőlés
+            const shiftX = (x / (rect.width / 2)) * 10;
 
-            // Szögértékek dinamikus változása a tekintet alapján
-            const currentAng = Math.round(15 + (x / 30));
-            const targetAng = Math.round(18 + (y / 30));
+            mirrorGlass.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) translateX(${shiftX}px)`;
+
+            const currentAng = Math.round(15 + (x / 25));
+            const targetAng = Math.round(18 + (y / 25));
 
             langVal.innerText = `${currentAng}°`;
             rangVal.innerText = `${targetAng}°`;
             currVal.innerText = `${currentAng}°`;
             targVal.innerText = `${targetAng}°`;
 
-            if (Math.abs(x) < 40 && Math.abs(y) < 40) {
+            if (Math.abs(x) < 50 && Math.abs(y) < 50) {
                 reticle.innerText = "user verified";
                 reticle.style.borderColor = "#00f3ff";
                 reticle.style.color = "#00f3ff";

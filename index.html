@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aion Drive-Eye v1.1.0 - Precision Center Mirror</title>
+    <title>Aion Drive-Eye v1.1.0 - Corrected Center Mirror</title>
     <style>
         :root {
             --hud-green: #22c55e;
@@ -332,43 +332,60 @@
             box-shadow: 0 0 8px var(--hud-cyan);
         }
 
-        /* TISZTA CSS KÖZÉPSŐ TÜKÖR GRAFIKA (KÉK AUTÓ A SÁVBAN ÉS KERÍTÉS) */
+        /* PONTOS KÖZÉPSŐ TÜKÖR ARÁNYOK A KÉP ALAPJÁN */
         .center-kresz-sim {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #8e8e8e;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            background: #dcdcdc;
+            overflow: hidden;
         }
 
-        .road-strip {
+        .sky-bg {
             position: absolute;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #b0b0b0 40%, #4a4a4a 40%);
+            height: 45%;
+            background: #b5b5b5;
         }
 
-        .wall-left, .wall-right {
+        .road-bg {
             position: absolute;
-            top: 30%;
-            width: 35%;
-            height: 30%;
-            background: #2b2b2b;
-            border-top: 3px solid #1a1a1a;
+            bottom: 0;
+            width: 100%;
+            height: 55%;
+            background: #404040;
         }
-        .wall-left { left: 0; transform: skewY(15deg); }
-        .wall-right { right: 0; transform: skewY(-15deg); }
+
+        .building-left {
+            position: absolute;
+            top: 20%;
+            left: 0;
+            width: 38% ;
+            height: 30%;
+            background: #252525;
+            border-top: 2px solid #111;
+        }
+
+        .building-right {
+            position: absolute;
+            top: 20%;
+            right: 0;
+            width: 38%;
+            height: 30%;
+            background: #252525;
+            border-top: 2px solid #111;
+        }
 
         .blue-car-center {
             position: absolute;
-            bottom: 25px;
-            width: 90px;
-            height: 50px;
-            background: #3b82f6;
-            border-radius: 12px 12px 6px 6px;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 60px;
+            background: #2563eb;
+            border-radius: 14px 14px 6px 6px;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.9);
             border: 2px solid #93c5fd;
         }
     </style>
@@ -414,16 +431,17 @@
                 </div>
             </div>
 
-            <!-- KÖZÉPSŐ TÜKÖR PONTOSAN LEKÓDOLVA A KÉP ALAPJÁN -->
+            <!-- KÖZÉPSŐ TÜKÖR TÖKÉLETES ARÁNYOKKAL -->
             <div class="mirror-wrapper">
                 <div class="mirror-stem"></div>
                 <div class="mirror-housing">
                     <div class="mirror-inner-glass" id="mirrorGlass">
                         <div class="mirror-canvas" id="centerMirrorContent">
                             <div class="center-kresz-sim">
-                                <div class="road-strip"></div>
-                                <div class="wall-left"></div>
-                                <div class="wall-right"></div>
+                                <div class="sky-bg"></div>
+                                <div class="road-bg"></div>
+                                <div class="building-left"></div>
+                                <div class="building-right"></div>
                                 <div class="blue-car-center"></div>
                             </div>
                         </div>
